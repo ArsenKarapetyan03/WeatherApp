@@ -9,7 +9,7 @@ export const WeatherPage = () => {
 
 	const [search, setSearch] = useState("Yerevan");
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-	const [dailyWeatherData, setDailyWeatherData] = useState<DailyWeatherData | null>(null);
+	// const [dailyWeatherData, setDailyWeatherData] = useState<DailyWeatherData | null>(null);
 
 
 	useEffect(() => {
@@ -19,12 +19,12 @@ export const WeatherPage = () => {
 		}
 		fetchWeather();
 
-		const fetchDailyWeather = async () => {
-			const data = await getDailyWeather(search);
-			setDailyWeatherData(data);
-		}
-		fetchDailyWeather();
-	}, []);
+		// const fetchDailyWeather = async () => {
+		// 	const data = await getDailyWeather(search);
+		// 	setDailyWeatherData(data);
+		// }
+		// fetchDailyWeather();
+	},[]);
 
 	return (
 		<main className="w-3/4 mx-auto">
@@ -36,20 +36,7 @@ export const WeatherPage = () => {
 
 			<WeatherSearch />
 			{weatherData ? <WeatherCard weatherData={weatherData}/> : null}
-			{dailyWeatherData ? <DailyWeather dailyWeatherData={dailyWeatherData} /> : null}
+			{/*{dailyWeatherData ? <DailyWeather dailyWeatherData={dailyWeatherData} /> : null}*/}
 		</main>
 	)
 }
-
-
-// {
-// 	city: "London",
-// 	country: "UK",
-// 	temperature: 20,
-// 	feelsLike: 20,
-// 	clouds: 0,
-// 	description: "lorem",
-// 	icon: "asdasd",
-// 	humidity: 30,
-// 	windSpeed: 22
-// }

@@ -17,5 +17,5 @@ export interface WeatherData {
 }
 
 export interface DailyWeatherData {
-	list: Omit<WeatherData, 'name'>[];
+	list: (Omit<WeatherData, 'name'> & { dt_txt: string })[];
 }
