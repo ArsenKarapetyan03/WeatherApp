@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { getDailyWeather, getWeather } from "../api/weatherApi.ts";
 import { WeatherCard } from "../components/WeatherCard.tsx";
-import { WeatherSearch } from "../components/WeatherSearch";
-import type { DailyWeatherData, WeatherData } from "../model/weather.types.ts";
-import { DailyWeather } from "../components/DailyWeather.tsx";
+import { WeatherSearch } from "../components/WeatherSearch.tsx";
+import { getWeather } from "../api/weatherApi.ts";
+import type { WeatherData } from "../model/weather.types.ts";
 
 export const WeatherPage = () => {
 
 	const [search, setSearch] = useState("Yerevan");
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-	// const [dailyWeatherData, setDailyWeatherData] = useState<DailyWeatherData | null>(null);
 
 
 	useEffect(() => {
@@ -18,13 +16,7 @@ export const WeatherPage = () => {
 			setWeatherData(data);
 		}
 		fetchWeather();
-
-		// const fetchDailyWeather = async () => {
-		// 	const data = await getDailyWeather(search);
-		// 	setDailyWeatherData(data);
-		// }
-		// fetchDailyWeather();
-	},[]);
+	},[search]);
 
 	return (
 		<main className="w-3/4 mx-auto">
@@ -34,9 +26,8 @@ export const WeatherPage = () => {
 				<p className="font-semibold">Search any city to see the current temperature and conditions.</p>
 			</div>
 
-			<WeatherSearch />
+			<WeatherSearch setSearch={setSearch}/>
 			{weatherData ? <WeatherCard weatherData={weatherData}/> : null}
-			{/*{dailyWeatherData ? <DailyWeather dailyWeatherData={dailyWeatherData} /> : null}*/}
 		</main>
 	)
 }

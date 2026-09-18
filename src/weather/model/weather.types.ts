@@ -14,8 +14,5 @@ export interface WeatherData {
 			description: string;
 		}
 	];
-}
-
-export interface DailyWeatherData {
-	list: (Omit<WeatherData, 'name'> & { dt_txt: string })[];
+	dt_txt: string;
 }
