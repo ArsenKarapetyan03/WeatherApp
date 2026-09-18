@@ -1,7 +1,7 @@
 import type { WeatherData } from "../model/weather.types.ts";
 
 
-export const DailyWeather = (
+export const DailyWeatherPage = (
 	{dailyWeatherData}:
 	{
 		dailyWeatherData: WeatherData,
@@ -18,7 +18,8 @@ export const DailyWeather = (
 						key={item.dt}
 						className="text-blue-100 font-bold text-left"
 					>
-						{new Date(Number(item.dt)*1000).getHours()}
+						{/*{new Date(Number(item.dt)*1000).getHours()}*/}
+						{new Date(Number(item.dt)*1000).getDate()}
 						{/*<div>Feels like {Math.round(main.feels_like)}°</div>*/}
 						{/*<div>Humidity {main.humidity}%</div>*/}
 						{/*<div>Wind speed {Math.round(wind.speed * 3.6)} km/h</div>*/}
@@ -27,7 +28,7 @@ export const DailyWeather = (
 				)
 			})}
 
-			{/*{dailyWeatherData.list[2].weather[0].description}*/}
+			{dailyWeatherData.list.length}
 		</div>
 	)
 }
