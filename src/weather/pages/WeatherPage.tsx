@@ -3,9 +3,8 @@ import { WeatherCard } from "../components/WeatherCard.tsx";
 import { WeatherSearch } from "../components/WeatherSearch.tsx";
 import { getWeather } from "../api/weatherApi.ts";
 import type { WeatherData } from "../model/weather.types.ts";
-import { DailyWeatherPage } from "./DailyWeatherPage.tsx";
 import { HourlyWeather } from "../components/HourlyWeather.tsx";
-// import { DailyWeatherPage } from "./DailyWeatherPage.tsx";
+import { DailyWeatherPage } from "./DailyWeatherPage.tsx";
 
 export const WeatherPage = () => {
 
@@ -19,10 +18,10 @@ export const WeatherPage = () => {
 			setWeatherData(data);
 		}
 		fetchWeather();
-	},[search]);
+	}, [search]);
 
 	return (
-		<main className="w-3/4 mx-auto">
+		<main className="w-1/2 mx-auto">
 			<div className="font-semibold text-white text-xl">
 				<p className="mt-4 text-xl">Weather dashboard</p>
 				<h1 className="text-bold text-white">Weather in your city</h1>
@@ -31,12 +30,10 @@ export const WeatherPage = () => {
 
 			<WeatherSearch setSearch={setSearch}/>
 			{weatherData ?
-				<div>
+				<div className="flex flex-col gap-5">
 					<WeatherCard weatherData={weatherData} />
-
-					{/*<DailyWeatherPage dailyWeatherData={weatherData} />*/}
-
 					<HourlyWeather weatherData={weatherData} />
+					<DailyWeatherPage dailyWeatherData={weatherData} />
 				</div>
 				: null}
 		</main>
