@@ -1,13 +1,6 @@
-import type { Weather } from "../model/weather.types.ts";
+import type { WeatherData } from "../model/weather.types.ts";
 
-export const WeatherCard = (
-	{weatherData}:
-	{
-		weatherData: {
-			list: Weather[],
-			name: string
-		},
-	}) => {
+export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
 	const {weather, main, wind} = weatherData.list[0];
 	const name = weatherData.name;

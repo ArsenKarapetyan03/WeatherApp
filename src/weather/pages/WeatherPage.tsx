@@ -31,7 +31,7 @@ export const WeatherPage = () => {
 			{weatherData ?
 				<div>
 					<WeatherCard weatherData={weatherData} />
-					{/*<DailyWeather weatherData={weatherData} />*/}
+					<DailyWeather dailyWeatherData={weatherData} />
 				</div>
 				: null}
 		</main>
