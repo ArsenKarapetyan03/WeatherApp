@@ -1,5 +1,4 @@
-export interface WeatherData {
-	name: string;
+export interface Weather {
 	main: {
 		temp: number;
 		feels_like: number;
@@ -14,5 +13,10 @@ export interface WeatherData {
 			description: string;
 		}
 	];
-	dt_txt: string;
+	dt: string;
+}
+
+export interface WeatherData {
+	name: string;
+	list: Weather[];
 }

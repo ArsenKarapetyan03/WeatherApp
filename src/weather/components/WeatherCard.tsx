@@ -1,8 +1,16 @@
-import type { WeatherData } from "../model/weather.types.ts";
+import type { Weather } from "../model/weather.types.ts";
 
-export const WeatherCard = ({ weatherData }: { weatherData: WeatherData }) => {
+export const WeatherCard = (
+	{weatherData}:
+	{
+		weatherData: {
+			list: Weather[],
+			name: string
+		},
+	}) => {
 
-	const {name, weather, main, wind, dt_txt} = weatherData;
+	const {weather, main, wind} = weatherData.list[0];
+	const name = weatherData.name;
 
 	return (
 		<div className="flex flex-col gap-2 my-20 p-3 mx-auto max-w-2/3 text-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.3)] rounded-lg">

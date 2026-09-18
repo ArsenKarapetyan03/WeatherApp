@@ -3,6 +3,7 @@ import { WeatherCard } from "../components/WeatherCard.tsx";
 import { WeatherSearch } from "../components/WeatherSearch.tsx";
 import { getWeather } from "../api/weatherApi.ts";
 import type { WeatherData } from "../model/weather.types.ts";
+import { DailyWeather } from "../components/DailyWeather.tsx";
 
 export const WeatherPage = () => {
 
@@ -27,7 +28,12 @@ export const WeatherPage = () => {
 			</div>
 
 			<WeatherSearch setSearch={setSearch}/>
-			{weatherData ? <WeatherCard weatherData={weatherData}/> : null}
+			{weatherData ?
+				<div>
+					<WeatherCard weatherData={weatherData} />
+					{/*<DailyWeather weatherData={weatherData} />*/}
+				</div>
+				: null}
 		</main>
 	)
 }
