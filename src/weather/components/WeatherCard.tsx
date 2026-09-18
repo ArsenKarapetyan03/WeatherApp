@@ -6,7 +6,7 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 	const name = weatherData.name;
 
 	return (
-		<div className="flex flex-col gap-2 py-3 text-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.3)] rounded-lg">
+		<div className="flex flex-col gap-2 py-3 text-2xl bg-black/5 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
 			{/* Heading */}
 			<div className="text-5xl text-blue-50 font-bold">{name}</div>
 			<div className="flex justify-evenly">
