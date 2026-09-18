@@ -6,16 +6,28 @@ export const DailyWeather = (
 	{
 		dailyWeatherData: WeatherData,
 	}) => {
+
+
+
 	return (
 		<div
 			className="flex flex-col gap-2 my-20 p-3 mx-auto max-w-2/3 text-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.3)] rounded-lg">
-			{/*{dailyWeatherData.list.map(item => {*/}
-			{/*	return (*/}
-			{/*		<div>{item.weather[0].description}</div>*/}
-			{/*	)*/}
-			{/*})}*/}
+			{dailyWeatherData.list.map(item =>  {
+				return (
+					<div
+						key={item.dt}
+						className="text-blue-100 font-bold text-left"
+					>
+						{new Date(Number(item.dt)*1000).getHours()}
+						{/*<div>Feels like {Math.round(main.feels_like)}°</div>*/}
+						{/*<div>Humidity {main.humidity}%</div>*/}
+						{/*<div>Wind speed {Math.round(wind.speed * 3.6)} km/h</div>*/}
+						{/*<div>{weather[0].description}</div>*/}
+					</div>
+				)
+			})}
 
-			{dailyWeatherData.list[2].dt}
+			{/*{dailyWeatherData.list[2].weather[0].description}*/}
 		</div>
 	)
 }
