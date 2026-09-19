@@ -1,32 +1,42 @@
 import { Droplets, Wind } from "lucide-react";
 import type { WeatherData } from "../model/weather.types.ts";
+import { ICON_URL } from "../model/weather.config.ts";
 
-export const HourlyWeather = ({weatherData}: {weatherData: WeatherData}) => {
+export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
 
-	const todayWeather = weatherData.list.filter(item =>	new Date(Number(item.dt)*1000).getDate() === new Date().getDate())
+	const todayWeather = weatherData.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate() + 1)
 
 	return (
 		<div
-			className="flex gap-2 justify-between my-1 text-xl">
+			className="flex gap-2 justify-between text-xl rounded-lg overflow-x-auto shadow-[1px_5px_20px_rgba(0,0,0,0.25)]">
 			{todayWeather.map((item: any, index: number) => {
 
 				return (
 					<div
 						key={index}
-						className="flex-1 flex flex-col gap-2 p-2 font-semibold text-blue-50 bg-black/5 shadow-[1px_5px_20px_rgba(0,0,0,0.2)] rounded-lg"
+						className="flex-1 flex flex-col gap-2 p-2 font-semibold text-blue-50 rounded-lg shadow-[1px_5px_20px_rgba(0,0,0,0.25)]"
 					>
-						<div>At {new Date(Number(item.dt)*1000).getHours()}:00</div>
-						<div className="flex justify-between">
-							<div className="relative text-5xl">{Math.round(item.main.temp)}<span className="absolute -top-2  text-yellow-300">°c</span></div>
-							<div className="flex flex-col text-nowrap text-blue-600 font-bold">
-								<div><Droplets size={20} className="inline"/> {item.main.humidity}%</div>
-								<div><Wind className="inline"/> {Math.round(item.wind.speed*3.6)} km/h</div>
+						<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
+						<div className="flex justify-between gap-2">
+							<div className="flex text-5xl">{Math.round(item.main.temp)}<span
+								className="text-3xl text-yellow-300">°c</span></div>
+							<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
+								<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"}/>
+								<div>
+									<Droplets size={18} className="inline"/>
+									<span> {item.main.humidity}</span>
+									<span className="text-sm">%</span>
+								</div>
+								<div>
+									<Wind size={20} className="inline"/>
+									<span> {Math.round(item.wind.speed * 3.6)}</span>
+									<span className="text-sm">km/h</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				)
 			})}
-
 		</div>
 	)
 }

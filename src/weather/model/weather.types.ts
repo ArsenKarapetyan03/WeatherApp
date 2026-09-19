@@ -1,6 +1,8 @@
 export interface Weather {
 	main: {
 		temp: number;
+		temp_min: number;
+		temp_max: number;
 		feels_like: number;
 		humidity: number;
 	};
@@ -11,6 +13,7 @@ export interface Weather {
 	weather: [
 		{
 			description: string;
+			icon: string;
 		}
 	];
 	dt: string;

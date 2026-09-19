@@ -1,4 +1,5 @@
 import type { WeatherData } from "../model/weather.types.ts";
+import {ICON_URL} from "../model/weather.config.ts";
 
 export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
@@ -17,11 +18,13 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 					<span className="text-5xl text-blue-100 font-bold pt-4">C</span>
 				</div>
 				{/* Weather info */}
-				<div className="text-blue-100 font-bold text-left">
+				<div className="text-blue-200 font-bold text-left">
 					<div>Feels like {Math.round(main.feels_like)}°</div>
 					<div>Humidity {main.humidity}%</div>
 					<div>Wind speed {Math.round(wind.speed*3.6)} km/h</div>
-					<div>{weather[0].description}</div>
+					<div className="flex">{weather[0].description}
+						<img src={ICON_URL + weather[0].icon + ".png"}/>
+					</div>
 				</div>
 			</div>
 		</div>

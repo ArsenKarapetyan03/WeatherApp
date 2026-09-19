@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { WeatherCard } from "../components/WeatherCard.tsx";
 import { WeatherSearch } from "../components/WeatherSearch.tsx";
 import { getWeather } from "../api/weatherApi.ts";
-import type { WeatherData } from "../model/weather.types.ts";
 import { HourlyWeather } from "../components/HourlyWeather.tsx";
-import { DailyWeatherPage } from "./DailyWeatherPage.tsx";
+import { DailyWeather } from "../components/DailyWeather.tsx";
+import type { WeatherData } from "../model/weather.types.ts";
 
 export const WeatherPage = () => {
 
@@ -33,7 +33,7 @@ export const WeatherPage = () => {
 				<div className="flex flex-col gap-5">
 					<WeatherCard weatherData={weatherData} />
 					<HourlyWeather weatherData={weatherData} />
-					<DailyWeatherPage dailyWeatherData={weatherData} />
+					<DailyWeather dailyWeatherData={weatherData} />
 				</div>
 				: null}
 		</main>
