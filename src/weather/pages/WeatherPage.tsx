@@ -6,6 +6,7 @@ import { DailyWeather } from "../components/DailyWeather.tsx";
 import { getWeather} from "../api/weatherApi.ts";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
+import {CustomButton} from "custom-ui-components/src/components/CustomButton.tsx";
 
 export const WeatherPage = () => {
 
@@ -33,14 +34,18 @@ export const WeatherPage = () => {
 	}, [search]);
 
 	return (
-		<main className="w-1/2 mx-auto">
+		<main className="max-w-2/3 mx-auto">
+
+			<header className="w-full flex">
+				<div className="flex-1"><WeatherSearch setSearch={setSearch}/></div>
+				<div><CustomButton >Favorite cities</CustomButton></div>
+			</header>
+
 			<div className="font-semibold text-white text-xl">
 				<p className="mt-4 text-xl">Weather dashboard</p>
 				<h1 className="font-bold text-white">Weather in your city</h1>
 				<p className="font-semibold">Search any city to see the current temperature and conditions.</p>
 			</div>
-
-			<WeatherSearch setSearch={setSearch}/>
 
 			{isLoading ? (
 					<div className="m-40">

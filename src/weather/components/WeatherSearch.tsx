@@ -22,7 +22,7 @@ export const WeatherSearch = ({setSearch}: WeatherSearchProps) => {
 		<form
 			onSubmit={handleSubmit}
 			className={cn(
-				"my-4 mx-auto flex bg-white/10 border border-white/50 rounded-lg",
+				"flex bg-white/10 border border-white/50 rounded-lg",
 				"hover:border-white focus-within:border-white transition"
 			)}
 		>

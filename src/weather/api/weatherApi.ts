@@ -1,11 +1,5 @@
+import { DEFAULT_CITY, CITY_COORDS_URL, API_KEY, CITY_NAME_URL, DAILY_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
-
-const API_KEY = import.meta.env.VITE_API_KEY;
-const CITY_COORDS_URL = "https://api.openweathermap.org/geo/1.0/direct?q=";
-const CITY_NAME_URL = "https://api.openweathermap.org/geo/1.0/reverse";
-const DAILY_URL = "https://api.openweathermap.org/data/2.5/forecast";
-
-const defaultCity = "London";
 
 const getCurrentCoords = (): Promise<{ lat: number, lon: number } | null> => {
 	return new Promise((resolve) => {
@@ -91,7 +85,7 @@ export const getWeather = async (city: string | null): Promise<WeatherData> => {
 				}
 			}
 			else {
-				location = await getCityCoords(defaultCity);
+				location = await getCityCoords(DEFAULT_CITY);
 			}
 		}
 

@@ -1,0 +1,1 @@
+const FAVORITE_CITIES = ["Yerevan", "Aparan", "Toronto",];

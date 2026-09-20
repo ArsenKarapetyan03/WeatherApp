@@ -1,5 +1,6 @@
+import { Star } from "lucide-react";
+import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
-import {ICON_URL} from "../model/weather.config.ts";
 
 export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
@@ -9,7 +10,13 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 	return (
 		<div className="flex flex-col gap-2 py-3 text-2xl bg-black/5 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
 			{/* Heading */}
-			<div className="text-5xl text-blue-50 font-bold">{name}</div>
+			<div className="flex justify-center">
+				<div className="flex-1 text-5xl text-blue-50 font-bold">{name}</div>
+				<Star
+					type="button"
+					onClick={() => {}}
+					className={`m-3 text-blue-50`}/>
+			</div>
 			<div className="flex justify-evenly">
 				{/* Temperature */}
 				<div className="flex justify-center">
