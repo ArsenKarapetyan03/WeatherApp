@@ -1,6 +1,6 @@
-import {CalendarDays, MoveDown, MoveUp} from "lucide-react";
-import type {Weather, WeatherData} from "../model/weather.types.ts";
-import {ICON_URL} from "../model/weather.config.ts";
+import { CalendarDays, MoveDown, MoveUp } from "lucide-react";
+import type { Weather, WeatherData } from "../model/weather.types.ts";
+import { ICON_URL } from "../model/weather.config.ts";
 
 export const DailyWeather = ({dailyWeatherData}: { dailyWeatherData: WeatherData }) => {
 
@@ -30,7 +30,7 @@ export const DailyWeather = ({dailyWeatherData}: { dailyWeatherData: WeatherData
 								</div>
 							</div>
 						</div>
-					)
+					);
 				})}
 			</div>
 		</div>

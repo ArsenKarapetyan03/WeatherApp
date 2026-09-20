@@ -4,17 +4,17 @@ import { ICON_URL } from "../model/weather.config.ts";
 
 export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
 
-	const todayWeather = weatherData.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate() + 1)
+	const todayWeather = weatherData.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate())
 
 	return (
 		<div
-			className="flex gap-2 justify-between text-xl rounded-lg overflow-x-auto shadow-[1px_5px_20px_rgba(0,0,0,0.25)]">
+			className="flex gap-2 justify-between text-xl bg-black/5 rounded-lg overflow-x-auto shadow-[1px_5px_20px_rgba(0,0,0,0.25)]">
 			{todayWeather.map((item: any, index: number) => {
 
 				return (
 					<div
 						key={index}
-						className="flex-1 flex flex-col gap-2 p-2 font-semibold text-blue-50 rounded-lg shadow-[1px_5px_20px_rgba(0,0,0,0.25)]"
+						className="flex-1 flex flex-col gap-2 p-2 font-semibold text-blue-50 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.25)]"
 					>
 						<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
 						<div className="flex justify-between gap-2">
