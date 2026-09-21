@@ -1,9 +1,15 @@
-import { WeatherPage } from './weather/pages/WeatherPage';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { WeatherPage } from "./weather/pages/WeatherPage";
+import { FavoriteCities } from "./weather/pages/FavoriteCities.tsx";
 
 function App() {
   return (
-    <WeatherPage />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WeatherPage />} />
+        <Route path="/favoriteCities" element={<FavoriteCities />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

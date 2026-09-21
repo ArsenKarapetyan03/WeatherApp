@@ -22,8 +22,8 @@ export const WeatherSearch = ({setSearch}: WeatherSearchProps) => {
 		<form
 			onSubmit={handleSubmit}
 			className={cn(
-				"flex bg-white/10 border border-white/50 rounded-lg",
-				"hover:border-white focus-within:border-white transition"
+				"flex bg-blue-500 border border-blue-400 rounded-lg",
+				"hover:border-blue-400 focus-within:border-blue-400 transition"
 			)}
 		>
 			<input
@@ -32,9 +32,14 @@ export const WeatherSearch = ({setSearch}: WeatherSearchProps) => {
 				placeholder="Enter your city"
 				value={input}
 				onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-				className="flex-1 p-1 text-white rounded-lg placeholder-gray-100 focus:outline-none"
+				className="flex-1 p-1 text-white rounded-lg placeholder-blue-300 focus:outline-none"
 			/>
-			<CustomButton type="submit">Search</CustomButton>
+			<CustomButton
+				type="submit"
+				className="text-white bg-transparent border-none shadow-none hover:text-blue-800"
+			>
+				Search
+			</CustomButton>
 		</form>
 	)
 }
