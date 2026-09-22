@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { Droplets, Wind } from "lucide-react";
+import { WeatherContext } from "../hooks/Provider.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 
 export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
+
+	const {tempUnit} = useContext(WeatherContext);
 
 	const todayWeather = weatherData.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate())
 
@@ -18,8 +22,8 @@ export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
 					>
 						<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
 						<div className="flex justify-between gap-2">
-							<div className="flex text-5xl">{Math.round(item.main.temp)}<span
-								className="text-3xl text-yellow-300">°c</span></div>
+							<div className="flex text-5xl">{Math.round(tempUnit === "F" ? (item.main.temp * 9 / 5) + 32 : item.main.temp)}<span
+								className="text-3xl text-yellow-300">°{tempUnit}</span></div>
 							<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
 								<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"}/>
 								<div>

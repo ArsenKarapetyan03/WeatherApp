@@ -17,6 +17,7 @@ const DeleteAlert = (
 		onClick: () => void;
 		onClose: Dispatch<SetStateAction<boolean>>;
 	}) => {
+
 	return (
 		<div className="flex flex-col items-center gap-5">
 			<Trash2Icon size={64} strokeWidth={1}/>
@@ -40,7 +41,7 @@ const DeleteAlert = (
 
 const CityWeatherRow = ({city}: {city: string}) => {
 
-	const {setSearch, setCities} = useContext(WeatherContext);
+	const {setSearch, setCities, tempUnit} = useContext(WeatherContext);
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
@@ -101,7 +102,7 @@ const CityWeatherRow = ({city}: {city: string}) => {
 				className="w-full flex gap-8 items-center text-2xl cursor-pointer"
 			>
 				<div className="flex-1 text-left text-blue-100 text-2xl font-bold">{city}</div>
-				<div className="mr-10 text-3xl text-yellow-200">{Math.round(main.temp)}°</div>
+				<div className="mr-10 text-3xl text-yellow-200">{Math.round(tempUnit === "F" ? (main.temp * 9 / 5) + 32 : main.temp)}°</div>
 				<img src={`${ICON_URL}${weather[0].icon.replace("n", "d")}.png`} alt=""/>
 				<div>
 					<Droplets size={20} className="inline"/>

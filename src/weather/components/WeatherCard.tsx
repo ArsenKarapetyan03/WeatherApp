@@ -6,7 +6,8 @@ import { WeatherContext } from "../hooks/Provider.tsx";
 
 export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
-	const {cities, setCities} = useContext(WeatherContext);
+	const {cities, setCities, tempUnit} = useContext(WeatherContext);
+
 	const name = weatherData.name;
 	const {weather, main, wind} = weatherData.list[0];
 
@@ -36,13 +37,13 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 			<div className="flex justify-evenly">
 				{/* Temperature */}
 				<div className="flex justify-center">
-					<div className="text-9xl text-white font-bold">{Math.round(main.temp)}</div>
+					<div className="text-9xl text-white font-bold">{Math.round(tempUnit === "F" ? (main.temp * 9 / 5) + 32 : main.temp)}</div>
 					<span className="text-3xl text-blue-100 font-bold">o</span>
-					<span className="text-5xl text-blue-100 font-bold pt-4">C</span>
+					<span className="text-5xl text-blue-100 font-bold pt-4">{tempUnit}</span>
 				</div>
 				{/* Weather info */}
 				<div className="text-blue-200 font-bold text-left">
-					<div>Feels like {Math.round(main.feels_like)}°</div>
+					<div>Feels like {Math.round(tempUnit === "F" ? (main.feels_like * 9 / 5) + 32 : main.feels_like)}°</div>
 					<div>Humidity {main.humidity}%</div>
 					<div>Wind speed {Math.round(wind.speed*3.6)} km/h</div>
 					<div className="flex">{weather[0].description}

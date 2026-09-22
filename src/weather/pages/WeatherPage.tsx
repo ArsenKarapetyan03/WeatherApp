@@ -13,7 +13,7 @@ import type { WeatherData } from "../model/weather.types.ts";
 
 export const WeatherPage = () => {
 
-	const { search } = useContext(WeatherContext);
+	const {search, tempUnit, setTempUnit} = useContext(WeatherContext);
 
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,14 +50,20 @@ export const WeatherPage = () => {
 					<WeatherSearch />
 				</div>
 
-				<div className="absolute right-10">
+				<div className="absolute right-10 flex gap-2">
 					<CustomButton
 						variant="link"
 						onClick={navigateToFavorites}
 						className="bg-black/30 text-blue-100 font-semibold"
 					>
+						<List strokeWidth={3} className="inline mr-2" />
 						<span>Favorites</span>
-						<List strokeWidth={3} className="inline ml-2 text-blue-300" />
+					</CustomButton>
+					<CustomButton
+						onClick={()=>setTempUnit(prevState => prevState === "C" ? "F" : "C")}
+						className="text-blue-100 font-semibold bg-black/30 border-none"
+					>
+						°{tempUnit === "C" ? "F" : "C"}
 					</CustomButton>
 				</div>
 			</header>

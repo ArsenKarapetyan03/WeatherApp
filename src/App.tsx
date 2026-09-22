@@ -9,10 +9,11 @@ function App() {
 
 	const [cities, setCities] = useState<string[]>(FAVORITE_CITIES);
 	const [search, setSearch] = useState<string | null>(null);
+	const [tempUnit, setTempUnit] = useState("C");
 
 	return (
 		<BrowserRouter>
-			<WeatherContext value={{cities, setCities, search, setSearch}}>
+			<WeatherContext value={{cities, setCities, search, setSearch, tempUnit, setTempUnit}}>
 				<Routes>
 					<Route
 						path="/"

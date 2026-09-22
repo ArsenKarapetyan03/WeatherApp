@@ -1,9 +1,13 @@
+import { useContext } from "react";
+import { WeatherContext } from "../hooks/Provider.tsx";
 import { CalendarDays, MoveDown, MoveUp } from "lucide-react";
 import type { Weather, WeatherData } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import { CollapsiblePanel } from "custom-ui-components/src/components/CollapsiblePanel.tsx";
 
 export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}) => {
+
+	const {tempUnit} = useContext(WeatherContext);
 
 	const panels = getDailyMaxMinWeather(dailyWeatherData).map(item => {
 		const {main, wind, weather} = item;
@@ -32,9 +36,9 @@ export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}
 			content: (
 				<div className="flex justify-evenly">
 					<div className="flex justify-center">
-						<div className="text-7xl text-white font-bold">{Math.round(main.temp)}</div>
+						<div className="text-7xl text-white font-bold">{Math.round(tempUnit === "F" ? (main.temp * 9 / 5) + 32 : main.temp)}</div>
 						<span className="text-xl text-blue-100 font-bold">o</span>
-						<span className="text-3xl text-blue-100 font-bold pt-4">C</span>
+						<span className="text-4xl text-blue-100 font-bold pt-4">{tempUnit}</span>
 					</div>
 
 					<div className="text-blue-200 font-bold text-left">
