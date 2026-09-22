@@ -1,4 +1,4 @@
-import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import { useState, useEffect, type Dispatch, type SetStateAction, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Droplets, Wind, Trash2Icon } from "lucide-react";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
@@ -7,18 +7,7 @@ import { CustomModal } from "custom-ui-components/src/components/CustomModal.tsx
 import { getWeather } from "../api/weatherApi.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
-
-interface FavoriteCitiesProps {
-	cities: string[];
-	setCities: Dispatch<SetStateAction<string[]>>;
-	setSearch: Dispatch<SetStateAction<string | null>>;
-}
-
-interface CityWeatherProps {
-	city: string;
-	setCities: Dispatch<SetStateAction<string[]>>;
-	setSearch: Dispatch<SetStateAction<string | null>>;
-}
+import { WeatherContext } from "../hooks/Provider.tsx";
 
 const DeleteAlert = (
 	{
@@ -49,13 +38,9 @@ const DeleteAlert = (
 	)
 }
 
-const CityWeatherRow = (
-	{
-		city,
-		setSearch,
-		setCities,
-	}: CityWeatherProps) => {
+const CityWeatherRow = ({city}: {city: string}) => {
 
+	const {setSearch, setCities} = useContext(WeatherContext);
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
@@ -150,13 +135,9 @@ const CityWeatherRow = (
 	);
 };
 
-export const FavoriteCities = (
-	{
-		cities,
-		setCities,
-		setSearch
-	}: FavoriteCitiesProps) => {
+export const FavoriteCities = () => {
 
+	const {cities} = useContext(WeatherContext);
 
 	return (
 		<div>
@@ -165,7 +146,7 @@ export const FavoriteCities = (
 				{cities && cities.length > 0 && (
 					<div className="flex flex-col gap-1">
 						{cities.map((city) => (
-							<CityWeatherRow key={city} city={city} setSearch={setSearch} setCities={setCities}/>
+							<CityWeatherRow key={city} city={city} />
 						))}
 					</div>
 				)}

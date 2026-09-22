@@ -1,21 +1,12 @@
-import { type Dispatch, type SetStateAction } from "react";
+import { useContext } from "react";
 import { Star } from "lucide-react";
 import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
+import { WeatherContext } from "../hooks/Provider.tsx";
 
-interface WeatherCardProps {
-	weatherData: WeatherData;
-	cities: string[];
-	setCities: Dispatch<SetStateAction<string[]>>;
-}
+export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
-export const WeatherCard = (
-	{
-		weatherData,
-		cities,
-		setCities,
-	}: WeatherCardProps) => {
-
+	const {cities, setCities} = useContext(WeatherContext);
 	const name = weatherData.name;
 	const {weather, main, wind} = weatherData.list[0];
 

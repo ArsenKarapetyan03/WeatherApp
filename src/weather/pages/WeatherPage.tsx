@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { List } from "lucide-react";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
@@ -8,23 +8,12 @@ import { WeatherSearch } from "../components/WeatherSearch.tsx";
 import { HourlyWeather } from "../components/HourlyWeather.tsx";
 import { DailyWeather } from "../components/DailyWeather.tsx";
 import { getWeather} from "../api/weatherApi.ts";
+import { WeatherContext } from "../hooks/Provider.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
 
-interface WeatherProps {
-	search: string | null;
-	setSearch: Dispatch<SetStateAction<string | null>>;
-	cities: string[];
-	setCities: Dispatch<SetStateAction<string[]>>;
-}
+export const WeatherPage = () => {
 
-export const WeatherPage = (
-	{
-		search,
-		setSearch,
-		cities,
-		setCities,
-	}: WeatherProps) => {
-
+	const { search } = useContext(WeatherContext);
 
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -58,7 +47,7 @@ export const WeatherPage = (
 		<div>
 			<header className="w-full fixed top-0 z-50 p-2 flex justify-center items-center bg-blue-800 border border-blue-300">
 				<div className="w-full max-w-2/3">
-					<WeatherSearch setSearch={setSearch}/>
+					<WeatherSearch />
 				</div>
 
 				<div className="absolute right-10">
@@ -94,9 +83,9 @@ export const WeatherPage = (
 						)
 						: weatherData ? (
 							<div className="flex flex-col gap-5">
-								<WeatherCard weatherData={weatherData} cities={cities} setCities={setCities}/>
-								<HourlyWeather weatherData={weatherData}/>
-								<DailyWeather dailyWeatherData={weatherData}/>
+								<WeatherCard weatherData={weatherData} />
+								<HourlyWeather weatherData={weatherData} />
+								<DailyWeather dailyWeatherData={weatherData} />
 							</div>
 						)
 							: null}

@@ -1,12 +1,10 @@
-import { type ChangeEvent, type SubmitEvent, useState } from "react";
+import { type ChangeEvent, type SubmitEvent, useContext, useState } from "react";
 import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
 import { cn } from "custom-ui-components/src/lib/utils.ts";
+import { WeatherContext } from "../hooks/Provider.tsx";
 
-interface WeatherSearchProps {
-	setSearch: (search: string) => void;
-}
-
-export const WeatherSearch = ({setSearch}: WeatherSearchProps) => {
+export const WeatherSearch = () => {
+	const {setSearch} = useContext(WeatherContext);
 	const [input, setInput] = useState("");
 
 	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
