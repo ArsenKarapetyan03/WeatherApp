@@ -3,6 +3,7 @@ import { Droplets, Wind } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
+import { unitConverter } from "../helpers/unitConverter.ts";
 
 export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
 
@@ -22,7 +23,7 @@ export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
 					>
 						<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
 						<div className="flex justify-between gap-2">
-							<div className="flex text-5xl">{Math.round(tempUnit === "F" ? (item.main.temp * 9 / 5) + 32 : item.main.temp)}<span
+							<div className="flex text-5xl">{unitConverter(item.main.temp)}<span
 								className="text-3xl text-yellow-300">°{tempUnit}</span></div>
 							<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
 								<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"}/>

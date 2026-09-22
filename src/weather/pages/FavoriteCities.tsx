@@ -8,6 +8,7 @@ import { getWeather } from "../api/weatherApi.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
+import { unitConverter } from "../helpers/unitConverter.ts";
 
 const DeleteAlert = (
 	{
@@ -41,7 +42,7 @@ const DeleteAlert = (
 
 const CityWeatherRow = ({city}: {city: string}) => {
 
-	const {setSearch, setCities, tempUnit} = useContext(WeatherContext);
+	const {setSearch, setCities} = useContext(WeatherContext);
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
@@ -77,22 +78,7 @@ const CityWeatherRow = ({city}: {city: string}) => {
 		fetchWeather();
 	}, [city]);
 
-	if (isLoading) {
-		return (
-			<div className="flex items-center gap-10">
-				<CustomLoadingSpinner size="lg" variant="solid"/>
-				<p className="text-white">Fetching data...</p>
-			</div>
-		);
-	}
-
-	if (error) {
-		return (<p className="text-red-500 text-center bg-white p-3 rounded-lg border border-red-500">{error}</p>);
-	}
-
-	if (!weatherData) return null;
-
-	const {weather, main, wind} = weatherData.list[0];
+	const finalWeatherData = weatherData?.list[0];
 
 	return (
 		<div
@@ -102,18 +88,32 @@ const CityWeatherRow = ({city}: {city: string}) => {
 				className="w-full flex gap-8 items-center text-2xl cursor-pointer"
 			>
 				<div className="flex-1 text-left text-blue-100 text-2xl font-bold">{city}</div>
-				<div className="mr-10 text-3xl text-yellow-200">{Math.round(tempUnit === "F" ? (main.temp * 9 / 5) + 32 : main.temp)}°</div>
-				<img src={`${ICON_URL}${weather[0].icon.replace("n", "d")}.png`} alt=""/>
-				<div>
-					<Droplets size={20} className="inline"/>
-					<span> {main.humidity}</span>
-					<span className="text-sm">%</span>
-				</div>
-				<div>
-					<Wind className="inline"/>
-					<span> {Math.round(wind.speed * 3.6)}</span>
-					<span className="text-sm">km/h</span>
-				</div>
+
+				{isLoading ? (
+					<div className="flex items-center p-1 gap-10 rounded-lg">
+						<CustomLoadingSpinner variant="solid"/>
+						<p className="text-base text-white">Fetching data...</p>
+					</div>
+				) : error ? (
+					<p className="text-red-500 text-center bg-white p-3 rounded-lg border border-red-500">{error}</p>
+				) : finalWeatherData ? (
+					<>
+						<div className="mr-10 text-3xl text-yellow-200">
+							{unitConverter(finalWeatherData.main.temp)}°
+						</div>
+						<img src={`${ICON_URL}${finalWeatherData.weather[0].icon.replace("n", "d")}.png`} alt=""/>
+						<div>
+							<Droplets size={20} className="inline"/>
+							<span> {finalWeatherData.main.humidity}</span>
+							<span className="text-sm">%</span>
+						</div>
+						<div>
+							<Wind className="inline"/>
+							<span> {Math.round(finalWeatherData.wind.speed * 3.6)}</span>
+							<span className="text-sm">km/h</span>
+						</div>
+					</>
+				) : null}
 			</div>
 			<CustomButton
 				type="button"
@@ -129,7 +129,7 @@ const CityWeatherRow = ({city}: {city: string}) => {
 				setModalOpen={setIsModalOpen}
 				content={{
 					contentTitle: "Are you sure?",
-					contentBody: <DeleteAlert onClick={handleDeleteFavorite} onClose={setIsModalOpen}/>
+					contentBody: <DeleteAlert onClick={handleDeleteFavorite} onClose={setIsModalOpen} />
 				}}
 			/>
 		</div>
@@ -137,7 +137,6 @@ const CityWeatherRow = ({city}: {city: string}) => {
 };
 
 export const FavoriteCities = () => {
-
 	const {cities} = useContext(WeatherContext);
 
 	return (

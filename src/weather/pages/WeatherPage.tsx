@@ -7,7 +7,7 @@ import { WeatherCard } from "../components/WeatherCard.tsx";
 import { WeatherSearch } from "../components/WeatherSearch.tsx";
 import { HourlyWeather } from "../components/HourlyWeather.tsx";
 import { DailyWeather } from "../components/DailyWeather.tsx";
-import { getWeather} from "../api/weatherApi.ts";
+import { getWeather } from "../api/weatherApi.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
 
@@ -47,7 +47,7 @@ export const WeatherPage = () => {
 		<div>
 			<header className="w-full fixed top-0 z-50 p-2 flex justify-center items-center bg-blue-800 border border-blue-300">
 				<div className="w-full max-w-2/3">
-					<WeatherSearch />
+					<WeatherSearch/>
 				</div>
 
 				<div className="absolute right-10 flex gap-2">
@@ -56,18 +56,17 @@ export const WeatherPage = () => {
 						onClick={navigateToFavorites}
 						className="bg-black/30 text-blue-100 font-semibold"
 					>
-						<List strokeWidth={3} className="inline mr-2" />
+						<List strokeWidth={3} className="inline mr-2"/>
 						<span>Favorites</span>
 					</CustomButton>
 					<CustomButton
-						onClick={()=>setTempUnit(prevState => prevState === "C" ? "F" : "C")}
+						onClick={() => setTempUnit(prevState => prevState === "C" ? "F" : "C")}
 						className="text-blue-100 font-semibold bg-black/30 border-none"
 					>
 						°{tempUnit === "C" ? "F" : "C"}
 					</CustomButton>
 				</div>
 			</header>
-
 
 			<main className="max-w-2/3 mx-auto mt-20">
 				<div className="m-10 font-semibold text-white text-xl">
@@ -88,12 +87,12 @@ export const WeatherPage = () => {
 							</p>
 						)
 						: weatherData ? (
-							<div className="flex flex-col gap-5">
-								<WeatherCard weatherData={weatherData} />
-								<HourlyWeather weatherData={weatherData} />
-								<DailyWeather dailyWeatherData={weatherData} />
-							</div>
-						)
+								<div className="flex flex-col gap-5">
+									<WeatherCard weatherData={weatherData}/>
+									<HourlyWeather weatherData={weatherData}/>
+									<DailyWeather dailyWeatherData={weatherData}/>
+								</div>
+							)
 							: null}
 			</main>
 		</div>
