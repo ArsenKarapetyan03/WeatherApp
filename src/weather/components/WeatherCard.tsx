@@ -1,14 +1,35 @@
+import { type Dispatch, type SetStateAction } from "react";
 import { Star } from "lucide-react";
 import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
-import { FAVORITE_CITIES } from "../data/favoriteCities.ts";
 
-export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
+interface WeatherCardProps {
+	weatherData: WeatherData;
+	cities: string[];
+	setCities: Dispatch<SetStateAction<string[]>>;
+}
+
+export const WeatherCard = (
+	{
+		weatherData,
+		cities,
+		setCities,
+	}: WeatherCardProps) => {
 
 	const name = weatherData.name;
 	const {weather, main, wind} = weatherData.list[0];
 
-	const isFavorite = FAVORITE_CITIES.includes(name);
+	const isFavorite = cities.includes(name);
+
+	const handleToggleFavorite = () => {
+		setCities(prevState => {
+			if (prevState.includes(name)) {
+				return prevState.filter((city) => city !== name);
+			} else {
+				return [...prevState, name]
+			}
+		});
+	}
 
 	return (
 		<div className="flex flex-col gap-2 py-3 text-2xl bg-black/5 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
@@ -18,8 +39,8 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 				<Star
 					type="button"
 					size={28}
-					onClick={() => {alert("Hi there!")}}
-					className={`m-3 text-blue-50 drop-shadow-[5px_5px_5px_rgba(0,0,0,0.7)] hover:fill-white ${isFavorite && "fill-white"}`}/>
+					onClick={handleToggleFavorite}
+					className={`m-3 text-white cursor-pointer drop-shadow-[5px_5px_5px_rgba(0,0,0,0.7)] hover:fill-white ${isFavorite && "fill-yellow-300 text-yellow-300 hover:fill-yellow-300"}`}/>
 			</div>
 			<div className="flex justify-evenly">
 				{/* Temperature */}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { List } from "lucide-react";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
@@ -10,9 +10,22 @@ import { DailyWeather } from "../components/DailyWeather.tsx";
 import { getWeather} from "../api/weatherApi.ts";
 import type { WeatherData } from "../model/weather.types.ts";
 
-export const WeatherPage = () => {
+interface WeatherProps {
+	search: string | null;
+	setSearch: Dispatch<SetStateAction<string | null>>;
+	cities: string[];
+	setCities: Dispatch<SetStateAction<string[]>>;
+}
 
-	const [search, setSearch] = useState<string | null>(null);
+export const WeatherPage = (
+	{
+		search,
+		setSearch,
+		cities,
+		setCities,
+	}: WeatherProps) => {
+
+
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
@@ -81,7 +94,7 @@ export const WeatherPage = () => {
 						)
 						: weatherData ? (
 							<div className="flex flex-col gap-5">
-								<WeatherCard weatherData={weatherData}/>
+								<WeatherCard weatherData={weatherData} cities={cities} setCities={setCities}/>
 								<HourlyWeather weatherData={weatherData}/>
 								<DailyWeather dailyWeatherData={weatherData}/>
 							</div>
