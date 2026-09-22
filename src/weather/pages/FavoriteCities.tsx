@@ -1,10 +1,12 @@
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
-import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
-import { ICON_URL } from "../model/weather.config.ts";
-import { getWeather } from "../api/weatherApi.ts";
-import type { WeatherData } from "../model/weather.types.ts";
-import { Droplets, Wind } from "lucide-react";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { Droplets, Wind, Trash2Icon } from "lucide-react";
+import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
+import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
+import { CustomModal } from "custom-ui-components/src/components/CustomModal.tsx";
+import { getWeather } from "../api/weatherApi.ts";
+import { ICON_URL } from "../model/weather.config.ts";
+import type { WeatherData } from "../model/weather.types.ts";
 
 interface FavoriteCitiesProps {
 	cities: string[];
@@ -18,22 +20,57 @@ interface CityWeatherProps {
 	setSearch: Dispatch<SetStateAction<string | null>>;
 }
 
+const DeleteAlert = (
+	{
+		onClick,
+		onClose,
+	}: {
+		onClick: () => void;
+		onClose: Dispatch<SetStateAction<boolean>>;
+	}) => {
+	return (
+		<div className="flex flex-col items-center gap-5">
+			<Trash2Icon size={64} strokeWidth={1}/>
+			<div className="flex justify-center gap-2">
+				<CustomButton
+					onClick={() => onClose(false)}
+					className="transition duration-200"
+				>
+					Cancel
+				</CustomButton>
+				<CustomButton
+					onClick={onClick}
+					className="font-semibold text-white border-red-500 bg-red-500 hover:bg-white hover:text-red-500 hover:border-red-300 transition duration-200"
+				>
+					Delete
+				</CustomButton>
+			</div>
+		</div>
+	)
+}
+
 const CityWeatherRow = (
 	{
 		city,
 		setSearch,
+		setCities,
 	}: CityWeatherProps) => {
 
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const navigate = useNavigate();
 
-	const navigateToHomepage = () => {
+	const navigateToWeatherPage = () => {
 		setSearch(city)
 		navigate("/");
 	};
+
+	const handleDeleteFavorite = () => {
+		setCities(prevState => prevState.filter((name) => city !== name));
+	}
 
 	useEffect(() => {
 		const fetchWeather = async () => {
@@ -72,14 +109,13 @@ const CityWeatherRow = (
 	const {weather, main, wind} = weatherData.list[0];
 
 	return (
-		<button
-			onClick={() => {
-				navigateToHomepage()
-			}}
-			className="w-full py-2 px-4 flex justify-between items-center text-blue-100 font-bold cursor-pointer rounded bg-black/5 hover:bg-black/10 transition-colors duration-200"
-		>
-			<div className="text-blue-100 text-2xl font-bold">{city}</div>
-			<div className="flex gap-8 items-center text-2xl">
+		<div
+			className="w-full py-2 px-4 flex items-center gap-10 text-blue-100 font-bold rounded bg-black/5 hover:bg-black/10 transition-colors duration-200">
+			<div
+				onClick={navigateToWeatherPage}
+				className="w-full flex gap-8 items-center text-2xl cursor-pointer"
+			>
+				<div className="flex-1 text-left text-blue-100 text-2xl font-bold">{city}</div>
 				<div className="mr-10 text-3xl text-yellow-200">{Math.round(main.temp)}°</div>
 				<img src={`${ICON_URL}${weather[0].icon.replace("n", "d")}.png`} alt=""/>
 				<div>
@@ -93,7 +129,24 @@ const CityWeatherRow = (
 					<span className="text-sm">km/h</span>
 				</div>
 			</div>
-		</button>
+			<CustomButton
+				type="button"
+				onClick={() => setIsModalOpen(true)}
+				variant="primary"
+				className="bg-black/10"
+			>
+				Delete
+			</CustomButton>
+			<CustomModal
+				variant="alert"
+				modalOpen={isModalOpen}
+				setModalOpen={setIsModalOpen}
+				content={{
+					contentTitle: "Are you sure?",
+					contentBody: <DeleteAlert onClick={handleDeleteFavorite} onClose={setIsModalOpen}/>
+				}}
+			/>
+		</div>
 	);
 };
 
