@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
-@source "../node_modules/custom-ui-components/src/**/*.{js,ts,jsx,tsx}";
+@source "../node_modules/custom-ui-components/src";
+
+@theme {
+    --animate-progress: progress linear forwards;
+}
+
+@keyframes progress {
+    from { width: 100%; }
+    to { width: 0; }
+}
 
 :root {
     --text: #6b6375;

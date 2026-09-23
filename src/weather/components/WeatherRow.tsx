@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useContext, useEffect, useState } from "react";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,17 @@ import { CustomButton } from "custom-ui-components/src/components/CustomButton.t
 import { CustomModal } from "custom-ui-components/src/components/CustomModal.tsx";
 import { DeleteAlert } from "./DeleteAlert.tsx";
 
-export const WeatherRow = ({city}: {city: string}) => {
+interface WeatherRowProps {
+	city: string;
+	setIsNotificationOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export const WeatherRow = (
+	{
+		city,
+		setIsNotificationOpen,
+	}: WeatherRowProps
+) => {
 	const {setSearch, setCities} = useContext(WeatherContext);
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,6 +38,7 @@ export const WeatherRow = ({city}: {city: string}) => {
 
 	const handleDeleteFavorite = () => {
 		setCities(prevState => prevState.filter((name) => city !== name));
+		setIsNotificationOpen(true);
 	}
 
 	useEffect(() => {
