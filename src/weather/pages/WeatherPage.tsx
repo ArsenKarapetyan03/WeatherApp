@@ -1,10 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { List } from "lucide-react";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
-import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
+import { PageHeader } from "../components/PageHeader.tsx";
 import { WeatherCard } from "../components/WeatherCard.tsx";
-import { WeatherSearch } from "../components/WeatherSearch.tsx";
 import { HourlyWeather } from "../components/HourlyWeather.tsx";
 import { DailyWeather } from "../components/DailyWeather.tsx";
 import { getWeather } from "../api/weatherApi.ts";
@@ -13,17 +10,11 @@ import type { WeatherData } from "../model/weather.types.ts";
 
 export const WeatherPage = () => {
 
-	const {search, tempUnit, setTempUnit} = useContext(WeatherContext);
+	const {search} = useContext(WeatherContext);
 
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
-
-	const navigate = useNavigate();
-
-	const navigateToFavorites = () => {
-		navigate("/favoriteCities");
-	};
 
 	useEffect(() => {
 		const fetchWeather = async () => {
@@ -45,28 +36,7 @@ export const WeatherPage = () => {
 
 	return (
 		<div>
-			<header className="w-full fixed top-0 z-50 p-2 flex justify-center items-center bg-blue-800 border border-blue-300">
-				<div className="w-full max-w-2/3">
-					<WeatherSearch/>
-				</div>
-
-				<div className="absolute right-10 flex gap-2">
-					<CustomButton
-						variant="link"
-						onClick={navigateToFavorites}
-						className="bg-black/30 text-blue-100 font-semibold"
-					>
-						<List strokeWidth={3} className="inline mr-2"/>
-						<span>Favorites</span>
-					</CustomButton>
-					<CustomButton
-						onClick={() => setTempUnit(prevState => prevState === "C" ? "F" : "C")}
-						className="text-blue-100 font-semibold bg-black/30 border-none"
-					>
-						°{tempUnit === "C" ? "F" : "C"}
-					</CustomButton>
-				</div>
-			</header>
+			<PageHeader />
 
 			<main className="max-w-2/3 mx-auto mt-20">
 				<div className="m-10 font-semibold text-white text-xl">

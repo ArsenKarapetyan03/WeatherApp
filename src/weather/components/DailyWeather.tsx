@@ -10,7 +10,6 @@ import { windConverter } from "../helpers/windConverter.ts";
 export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}) => {
 
 	const {tempUnit} = useContext(WeatherContext);
-
 	const convert = useUnitConverter();
 
 	const panels = getDailyMaxMinWeather(dailyWeatherData).map(item => {
@@ -38,15 +37,14 @@ export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}
 					</div>
 				</div>),
 			content: (
-				<div className="flex justify-evenly">
+				<div className="flex justify-evenly items-center">
 					<div className="flex justify-center">
-						<div className="text-7xl text-white font-bold">{convert(main.temp)}</div>
+						<span className="text-7xl text-white font-bold">{convert(main.temp)}</span>
 						<span className="text-xl text-blue-100 font-bold">o</span>
 						<span className="text-4xl text-blue-100 font-bold pt-4">{tempUnit}</span>
 					</div>
 
 					<div className="text-blue-200 font-bold text-left">
-						<div>Feels like {convert(main.feels_like)}°</div>
 						<div>Humidity {main.humidity}%</div>
 						<div>Wind speed {windConverter(wind.speed)} km/h</div>
 						<div className="flex">{weather[0].description}</div>

@@ -1,10 +1,12 @@
 import { type ChangeEvent, type SubmitEvent, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
 import { cn } from "custom-ui-components/src/lib/utils.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
 
 export const WeatherSearch = () => {
 	const {setSearch} = useContext(WeatherContext);
+	const navigate = useNavigate();
 	const [input, setInput] = useState("");
 
 	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
@@ -13,6 +15,7 @@ export const WeatherSearch = () => {
 		if (input.trim()) {
 			setSearch(input.trim());
 			setInput("");
+			navigate('/')
 		}
 	}
 

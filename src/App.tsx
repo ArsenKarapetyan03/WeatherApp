@@ -20,7 +20,7 @@ function App() {
 						element={<WeatherPage/>}
 					/>
 					<Route
-						path="/favoriteCities"
+						path="/FavoriteCities"
 						element={<FavoriteCities/>}
 					/>
 				</Routes>
