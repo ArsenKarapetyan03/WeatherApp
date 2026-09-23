@@ -34,6 +34,8 @@ export const WeatherPage = () => {
 		fetchWeather();
 	}, [search]);
 
+	const todayWeather = weatherData?.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate())
+
 	return (
 		<div>
 			<PageHeader />
@@ -59,7 +61,7 @@ export const WeatherPage = () => {
 						: weatherData ? (
 								<div className="flex flex-col gap-5">
 									<WeatherCard weatherData={weatherData}/>
-									<HourlyWeather weatherData={weatherData}/>
+									<HourlyWeather dayWeather={todayWeather}/>
 									<DailyWeather dailyWeatherData={weatherData}/>
 								</div>
 							)

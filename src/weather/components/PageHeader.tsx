@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ArrowLeft, ArrowRight, List } from "lucide-react";
+import { ArrowLeft, List } from "lucide-react";
 import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import { WeatherSearch } from "./WeatherSearch.tsx";
@@ -14,15 +14,21 @@ export const PageHeader = () => {
 	const hasPreviousPage = location.key !== "default";
 
 	const navigateToFavorites = () => {
+		if (location.pathname === "/FavoriteCities") {
+			return;
+		}
 		navigate("/FavoriteCities");
+	};
+
+	const navigateToHome = () => {
+		if (isHomePage) {
+			return;
+		}
+		navigate("/");
 	};
 
 	const handleBack = () => {
 		navigate(-1);
-	}
-
-	const handleForward = () => {
-		navigate(1);
 	}
 
 	return (
@@ -35,7 +41,13 @@ export const PageHeader = () => {
 				>
 					<ArrowLeft/>
 				</CustomButton>
-				<CustomButton onClick={handleForward}><ArrowRight/></CustomButton>
+				<CustomButton
+					variant="link"
+					onClick={navigateToHome}
+					className="bg-black/30 text-blue-100 font-semibold"
+				>
+					Home
+				</CustomButton>
 			</div>
 
 			<div className="w-full max-w-2/3">

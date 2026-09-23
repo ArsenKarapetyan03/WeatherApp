@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { CalendarDays, MoveDown, MoveUp } from "lucide-react";
 import { CollapsiblePanel } from "custom-ui-components/src/components/CollapsiblePanel.tsx";
 import { WeatherContext } from "../hooks/Provider.tsx";
@@ -6,53 +6,58 @@ import type { Weather, WeatherData } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { windConverter } from "../helpers/windConverter.ts";
+import { HourlyWeather } from "./HourlyWeather.tsx";
 
 export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}) => {
-
 	const {tempUnit} = useContext(WeatherContext);
 	const convert = useUnitConverter();
 
-	const panels = getDailyMaxMinWeather(dailyWeatherData).map(item => {
-		const {main, wind, weather} = item;
+	const panels = useMemo(() => {
+		return getDailyMaxMinWeather(dailyWeatherData).map(item => {
+			const {main, wind, weather} = item;
 
-		return {
-			title:
-				(<div
-					key={item.dt}
-					className="w-full p-2 flex justify-between text-blue-100 font-bold rounded hover:bg-black/5 transition-all duration-200"
-				>
-					<div>{new Date(Number(item.dt) * 1000).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-					<div className="flex gap-15">
-						<div className="flex gap-5">
-							<div className="flex items-center">
-								<MoveDown strokeWidth={3} size={20} className="text-blue-200"/>
-								{convert(main.temp_min)}°
+			return {
+				title:
+					(<div
+						key={item.dt}
+						className="w-full p-2 flex justify-between text-blue-100 font-bold rounded hover:bg-black/5 transition-all duration-200"
+					>
+						<div>{new Date(Number(item.dt) * 1000).toLocaleDateString('en-US', {weekday: 'long'})}</div>
+						<div className="flex gap-15">
+							<div className="flex gap-5">
+								<div className="flex items-center">
+									<MoveDown strokeWidth={3} size={20} className="text-blue-200"/>
+									{convert(main.temp_min)}°
+								</div>
+								<div className="flex items-center">
+									<MoveUp strokeWidth={3} size={20} className="text-blue-200"/>
+									{convert(main.temp_max)}°
+								</div>
 							</div>
-							<div className="flex items-center">
-								<MoveUp strokeWidth={3} size={20} className="text-blue-200"/>
-								{convert(main.temp_max)}°
+							<img src={ICON_URL + item.weather[0].icon.replace('n', 'd') + ".png"} alt=""/>
+						</div>
+					</div>),
+				content: (
+					<div className="flex flex-col gap-5 py-2">
+						<div className="flex justify-evenly items-center">
+							<div className="flex justify-center">
+								<span className="text-7xl text-white font-bold">{convert(main.temp)}</span>
+								<span className="text-xl text-blue-100 font-bold">o</span>
+								<span className="text-4xl text-blue-100 font-bold pt-4">{tempUnit}</span>
+							</div>
+
+							<div className="text-blue-200 font-bold text-left">
+								<div>Humidity {main.humidity}%</div>
+								<div>Wind speed {windConverter(wind.speed)} km/h</div>
+								<div className="flex">{weather[0].description}</div>
 							</div>
 						</div>
-						<img src={ICON_URL + item.weather[0].icon.replace('n', 'd') + ".png"} alt=""/>
+						<HourlyWeather dayWeather={dailyWeatherData.list} />
 					</div>
-				</div>),
-			content: (
-				<div className="flex justify-evenly items-center">
-					<div className="flex justify-center">
-						<span className="text-7xl text-white font-bold">{convert(main.temp)}</span>
-						<span className="text-xl text-blue-100 font-bold">o</span>
-						<span className="text-4xl text-blue-100 font-bold pt-4">{tempUnit}</span>
-					</div>
-
-					<div className="text-blue-200 font-bold text-left">
-						<div>Humidity {main.humidity}%</div>
-						<div>Wind speed {windConverter(wind.speed)} km/h</div>
-						<div className="flex">{weather[0].description}</div>
-					</div>
-				</div>
-			)
-		}
-	});
+				)
+			}
+		})
+	}, [dailyWeatherData, convert, tempUnit]);
 
 	return (
 		<div
@@ -69,25 +74,23 @@ export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}
 				contentStyles="border-none"
 				icon={false}
 			/>
-
-			<div className="divide-y">
-			</div>
 		</div>
 	)
 }
 
 function getDailyMaxMinWeather(data: WeatherData): Weather[] {
 	const dailyGroups = data.list.reduce<Record<string, Weather>>((acc, item) => {
-		const date = new Date(Number(item.dt) * 1000).toISOString().split('T')[0];
+		const dateObj = new Date(Number(item.dt) * 1000);
+		const dateKey = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
 		const {temp} = item.main;
 
-		if (!acc[date]) {
-			acc[date] = {
+		if (!acc[dateKey]) {
+			acc[dateKey] = {
 				...item,
 				main: {...item.main, temp_min: temp, temp_max: temp}
 			};
 		} else {
-			const main = acc[date].main;
+			const main = acc[dateKey].main;
 			main.temp_min = Math.min(main.temp_min, temp);
 			main.temp_max = Math.max(main.temp_max, temp);
 		}

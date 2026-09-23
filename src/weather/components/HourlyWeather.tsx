@@ -2,22 +2,23 @@ import { useContext } from "react";
 import { Droplets, Wind } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import type { WeatherData } from "../model/weather.types.ts";
+import type { Weather } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import { windConverter } from "../helpers/windConverter.ts";
 
-export const HourlyWeather = ({weatherData}: { weatherData: WeatherData }) => {
+export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined }) => {
 
 	const {tempUnit} = useContext(WeatherContext);
-
 	const convert = useUnitConverter();
 
-	const todayWeather = weatherData.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate())
+	if (!dayWeather) {
+		return null;
+	}
 
 	return (
 		<div
-			className="flex gap-2 text-xl bg-black/5 rounded-lg overflow-x-auto shadow-[1px_5px_20px_rgba(0,0,0,0.25)]">
-			{todayWeather.map((item: any, index: number) => {
+			className="flex gap-2 text-xl bg-black/5 rounded-lg overflow-hidden shadow-[1px_5px_20px_rgba(0,0,0,0.25)]">
+			{dayWeather.map((item: any, index: number) => {
 
 				return (
 					<div
