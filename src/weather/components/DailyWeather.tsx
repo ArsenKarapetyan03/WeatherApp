@@ -4,11 +4,14 @@ import { CollapsiblePanel } from "custom-ui-components/src/components/Collapsibl
 import { WeatherContext } from "../hooks/Provider.tsx";
 import type { Weather, WeatherData } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
-import { unitConverter } from "../helpers/unitConverter.ts";
+import { useUnitConverter } from "../hooks/useUnitConverter.ts";
+import { windConverter } from "../helpers/windConverter.ts";
 
 export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}) => {
 
 	const {tempUnit} = useContext(WeatherContext);
+
+	const convert = useUnitConverter();
 
 	const panels = getDailyMaxMinWeather(dailyWeatherData).map(item => {
 		const {main, wind, weather} = item;
@@ -24,11 +27,11 @@ export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}
 						<div className="flex gap-5">
 							<div className="flex items-center">
 								<MoveDown strokeWidth={3} size={20} className="text-blue-200"/>
-								{unitConverter(main.temp_min)}°
+								{convert(main.temp_min)}°
 							</div>
 							<div className="flex items-center">
 								<MoveUp strokeWidth={3} size={20} className="text-blue-200"/>
-								{unitConverter(main.temp_max)}°
+								{convert(main.temp_max)}°
 							</div>
 						</div>
 						<img src={ICON_URL + item.weather[0].icon.replace('n', 'd') + ".png"} alt=""/>
@@ -37,15 +40,15 @@ export const DailyWeather = ({dailyWeatherData}: {dailyWeatherData: WeatherData}
 			content: (
 				<div className="flex justify-evenly">
 					<div className="flex justify-center">
-						<div className="text-7xl text-white font-bold">{unitConverter(main.temp)}</div>
+						<div className="text-7xl text-white font-bold">{convert(main.temp)}</div>
 						<span className="text-xl text-blue-100 font-bold">o</span>
 						<span className="text-4xl text-blue-100 font-bold pt-4">{tempUnit}</span>
 					</div>
 
 					<div className="text-blue-200 font-bold text-left">
-						<div>Feels like {unitConverter(main.feels_like)}°</div>
+						<div>Feels like {convert(main.feels_like)}°</div>
 						<div>Humidity {main.humidity}%</div>
-						<div>Wind speed {Math.round(wind.speed*3.6)} km/h</div>
+						<div>Wind speed {windConverter(wind.speed)} km/h</div>
 						<div className="flex">{weather[0].description}</div>
 					</div>
 				</div>

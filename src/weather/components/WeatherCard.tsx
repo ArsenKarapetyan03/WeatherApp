@@ -1,14 +1,17 @@
 import { useContext } from "react";
 import { Star } from "lucide-react";
+import { cn } from "custom-ui-components/src/lib/utils.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { unitConverter } from "../helpers/unitConverter.ts";
-import { cn } from "custom-ui-components/src/lib/utils.ts";
+import { useUnitConverter } from "../hooks/useUnitConverter.ts";
+import { windConverter } from "../helpers/windConverter.ts";
 
 export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
 	const {cities, setCities, tempUnit} = useContext(WeatherContext);
+
+	const convert = useUnitConverter();
 
 	const name = weatherData.name;
 	const {weather, main, wind} = weatherData.list[0];
@@ -43,15 +46,15 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 			<div className="flex justify-evenly">
 				{/* Temperature */}
 				<div className="flex justify-center">
-					<div className="text-9xl text-white font-bold">{unitConverter(main.temp)}</div>
+					<div className="text-9xl text-white font-bold">{convert(main.temp)}</div>
 					<span className="text-3xl text-blue-100 font-bold">o</span>
 					<span className="text-5xl text-blue-100 font-bold pt-4">{tempUnit}</span>
 				</div>
 				{/* Weather info */}
 				<div className="text-blue-200 font-bold text-left">
-					<div>Feels like {unitConverter(main.feels_like)}°</div>
+					<div>Feels like {convert(main.feels_like)}°</div>
 					<div>Humidity {main.humidity}%</div>
-					<div>Wind speed {Math.round(wind.speed*3.6)} km/h</div>
+					<div>Wind speed {windConverter(wind.speed)} km/h</div>
 					<div className="flex">{weather[0].description}
 						<img src={ICON_URL + weather[0].icon + ".png"} alt=""/>
 					</div>

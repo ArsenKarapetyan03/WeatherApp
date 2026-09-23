@@ -1,6 +1,8 @@
 import { useState, useEffect, type Dispatch, type SetStateAction, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Droplets, Wind, Trash2Icon } from "lucide-react";
+import { useUnitConverter } from "../hooks/useUnitConverter.ts";
+import { windConverter } from "../helpers/windConverter.ts";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
 import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
 import { CustomModal } from "custom-ui-components/src/components/CustomModal.tsx";
@@ -8,7 +10,6 @@ import { getWeather } from "../api/weatherApi.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { unitConverter } from "../helpers/unitConverter.ts";
 
 const DeleteAlert = (
 	{
@@ -20,8 +21,13 @@ const DeleteAlert = (
 	}) => {
 
 	return (
-		<div className="flex flex-col items-center gap-5">
-			<Trash2Icon size={64} strokeWidth={1}/>
+		<div className="flex flex-col items-center gap-4">
+
+			<div className="px-1 py-2 text-red-500 bg-red-100 rounded-lg">
+				<Trash2Icon size={48} strokeWidth={2}/>
+			</div>
+			<p className="font-bold text-xl">Delete city?</p>
+			<p>This will permanently delete this city weather information</p>
 			<div className="flex justify-center gap-2">
 				<CustomButton
 					onClick={() => onClose(false)}
@@ -31,7 +37,7 @@ const DeleteAlert = (
 				</CustomButton>
 				<CustomButton
 					onClick={onClick}
-					className="font-semibold text-white border-red-500 bg-red-500 hover:bg-white hover:text-red-500 hover:border-red-300 transition duration-200"
+					className="font-semibold text-red-500  bg-red-100 hover:bg-white hover:text-red-500 hover:border-red-300 transition duration-200"
 				>
 					Delete
 				</CustomButton>
@@ -41,7 +47,6 @@ const DeleteAlert = (
 }
 
 const CityWeatherRow = ({city}: {city: string}) => {
-
 	const {setSearch, setCities} = useContext(WeatherContext);
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -78,6 +83,8 @@ const CityWeatherRow = ({city}: {city: string}) => {
 		fetchWeather();
 	}, [city]);
 
+	const convert = useUnitConverter();
+
 	const finalWeatherData = weatherData?.list[0];
 
 	return (
@@ -91,15 +98,18 @@ const CityWeatherRow = ({city}: {city: string}) => {
 
 				{isLoading ? (
 					<div className="flex items-center p-1 gap-10 rounded-lg">
-						<CustomLoadingSpinner variant="solid"/>
-						<p className="text-base text-white">Fetching data...</p>
+						<CustomLoadingSpinner
+							variant="solid"
+							colorClass="text-white"
+						/>
+						<p className="text-base text-white">Loading...</p>
 					</div>
 				) : error ? (
 					<p className="text-red-500 text-center bg-white p-3 rounded-lg border border-red-500">{error}</p>
 				) : finalWeatherData ? (
 					<>
 						<div className="mr-10 text-3xl text-yellow-200">
-							{unitConverter(finalWeatherData.main.temp)}°
+							{convert(finalWeatherData.main.temp)}°
 						</div>
 						<img src={`${ICON_URL}${finalWeatherData.weather[0].icon.replace("n", "d")}.png`} alt=""/>
 						<div>
@@ -109,7 +119,7 @@ const CityWeatherRow = ({city}: {city: string}) => {
 						</div>
 						<div>
 							<Wind className="inline"/>
-							<span> {Math.round(finalWeatherData.wind.speed * 3.6)}</span>
+							<span> {windConverter(finalWeatherData.wind.speed)}</span>
 							<span className="text-sm">km/h</span>
 						</div>
 					</>
@@ -124,11 +134,10 @@ const CityWeatherRow = ({city}: {city: string}) => {
 				Delete
 			</CustomButton>
 			<CustomModal
-				variant="alert"
 				modalOpen={isModalOpen}
 				setModalOpen={setIsModalOpen}
 				content={{
-					contentTitle: "Are you sure?",
+					contentTitle: "",
 					contentBody: <DeleteAlert onClick={handleDeleteFavorite} onClose={setIsModalOpen} />
 				}}
 			/>
