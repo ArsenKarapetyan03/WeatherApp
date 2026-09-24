@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { PageHeader } from "../components/PageHeader.tsx";
-import { WeatherRow } from "../components/WeatherRow.tsx";
 import { CustomNotification } from "custom-ui-components/src/components/CustomNotification.tsx";
 import { EmptyState } from "custom-ui-components/src/components/EmptyState.tsx";
+import { PageHeader } from "../components/PageHeader.tsx";
+import { WeatherRow } from "../components/WeatherRow.tsx";
 
 export const FavoriteCities = () => {
 	const {cities} = useContext(WeatherContext);

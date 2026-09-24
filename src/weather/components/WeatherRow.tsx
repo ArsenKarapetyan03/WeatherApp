@@ -1,16 +1,16 @@
-import { type Dispatch, type SetStateAction, useContext, useEffect, useState } from "react";
-import { WeatherContext } from "../hooks/Provider.tsx";
-import type { WeatherData } from "../model/weather.types.ts";
+import { useContext, useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { Droplets, Wind } from "lucide-react";
+import { WeatherContext } from "../hooks/Provider.tsx";
+import { ICON_URL } from "../model/weather.config.ts";
 import { getWeather } from "../api/weatherApi.ts";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
-import { ICON_URL } from "../model/weather.config.ts";
-import { Droplets, Wind } from "lucide-react";
 import { windConverter } from "../helpers/windConverter.ts";
 import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
 import { CustomModal } from "custom-ui-components/src/components/CustomModal.tsx";
 import { DeleteAlert } from "./DeleteAlert.tsx";
+import type { WeatherData } from "../model/weather.types.ts";
 
 interface WeatherRowProps {
 	city: string;
@@ -23,16 +23,19 @@ export const WeatherRow = (
 		setIsNotificationOpen,
 	}: WeatherRowProps
 ) => {
-	const {setSearch, setCities} = useContext(WeatherContext);
-	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string | null>(null);
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const navigate = useNavigate();
+	const convert = useUnitConverter();
+	const {setSearch, setCities, tempUnit} = useContext(WeatherContext);
+	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [error, setError] = useState<string | null>(null);
+
+	const finalWeatherData = weatherData?.list[0];
 
 	const navigateToWeatherPage = () => {
-		setSearch(city)
+		setSearch(city);
 		navigate("/");
 	};
 
@@ -59,10 +62,6 @@ export const WeatherRow = (
 
 		fetchWeather();
 	}, [city]);
-
-	const {tempUnit} = useContext(WeatherContext);
-	const convert = useUnitConverter();
-	const finalWeatherData = weatherData?.list[0];
 
 	return (
 		<div className="w-full py-2 px-4 flex items-center gap-10 text-blue-100 font-bold rounded bg-black/5 hover:bg-black/10 transition-colors duration-200">

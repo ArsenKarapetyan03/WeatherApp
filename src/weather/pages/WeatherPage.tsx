@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
 import { PageHeader } from "../components/PageHeader.tsx";
 import { WeatherCard } from "../components/WeatherCard.tsx";
@@ -34,7 +34,7 @@ export const WeatherPage = () => {
 		fetchWeather();
 	}, [search]);
 
-	const todayWeather = weatherData?.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate())
+	const todayWeather = weatherData?.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate());
 
 	return (
 		<div>
@@ -62,7 +62,7 @@ export const WeatherPage = () => {
 								<div className="flex flex-col gap-5">
 									<WeatherCard weatherData={weatherData}/>
 									<HourlyWeather dayWeather={todayWeather}/>
-									<DailyWeather dailyWeatherData={weatherData}/>
+									<DailyWeather weatherData={weatherData}/>
 								</div>
 							)
 							: null}

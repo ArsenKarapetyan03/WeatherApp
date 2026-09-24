@@ -1,10 +1,10 @@
 import { useContext } from "react";
+import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { Droplets, Wind } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import type { Weather } from "../model/weather.types.ts";
 import { ICON_URL } from "../model/weather.config.ts";
 import { windConverter } from "../helpers/windConverter.ts";
+import type { Weather } from "../model/weather.types.ts";
 
 export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined }) => {
 
@@ -12,18 +12,17 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 	const convert = useUnitConverter();
 
 	if (!dayWeather) {
-		return null;
+		return (<p className="text-white">Hourly weather is unavailable</p>);
 	}
 
 	return (
-		<div
-			className="flex gap-2 text-xl bg-black/5 rounded-lg overflow-hidden shadow-[1px_5px_20px_rgba(0,0,0,0.25)]">
+		<div className="flex gap-2 text-xl overflow-x-auto">
 			{dayWeather.map((item: any, index: number) => {
 
 				return (
 					<div
 						key={index}
-						className="flex-1 flex flex-col gap-2 p-2 max-w-1/3 font-semibold text-blue-50 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.25)]"
+						className="flex-1 flex flex-col gap-2 p-2 max-w-1/4 font-semibold text-blue-50 bg-black/5 rounded-lg"
 					>
 						<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
 						<div className="flex justify-between gap-2">
@@ -32,7 +31,7 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 								<span className="text-3xl text-yellow-300">°{tempUnit}</span>
 							</div>
 							<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
-								<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"}/>
+								<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"} alt="" />
 								<div>
 									<Droplets size={18} className="inline"/>
 									<span> {item.main.humidity}</span>
@@ -46,8 +45,8 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 							</div>
 						</div>
 					</div>
-				)
+				);
 			})}
 		</div>
-	)
+	);
 }
