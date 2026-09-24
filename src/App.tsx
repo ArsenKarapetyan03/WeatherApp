@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WeatherPage } from "./weather/pages/WeatherPage";
-import { FavoriteCities } from "./weather/pages/FavoriteCities.tsx";
+import { FavoriteCitiesPage } from "./weather/pages/FavoriteCitiesPage.tsx";
 import { FAVORITE_CITIES } from "./weather/data/favoriteCities.ts";
 import { WeatherContext } from "./weather/hooks/Provider.tsx";
 
@@ -20,8 +20,8 @@ function App() {
 						element={<WeatherPage/>}
 					/>
 					<Route
-						path="/FavoriteCities"
-						element={<FavoriteCities/>}
+						path="/FavoriteCitiesPage"
+						element={<FavoriteCitiesPage/>}
 					/>
 				</Routes>
 			</WeatherContext>
