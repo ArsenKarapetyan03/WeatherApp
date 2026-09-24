@@ -5,10 +5,8 @@ import { WeatherContext } from "../hooks/Provider.tsx";
 import { ICON_URL } from "../model/weather.config.ts";
 import { getWeather } from "../api/weatherApi.ts";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import { CustomLoadingSpinner } from "custom-ui-components/src/components/CustomLoadingSpinner.tsx";
 import { windConverter } from "../helpers/windConverter.ts";
-import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
-import { CustomModal } from "custom-ui-components/src/components/CustomModal.tsx";
+import { CustomButton, CustomModal, CustomLoadingSpinner } from "custom-ui-components";
 import { DeleteAlert } from "./DeleteAlert.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
 
@@ -45,7 +43,7 @@ export const WeatherRow = (
 	}
 
 	useEffect(() => {
-		const fetchWeather = async () => {
+		(async () => {
 			setIsLoading(true);
 			setError(null);
 
@@ -58,9 +56,7 @@ export const WeatherRow = (
 			} finally {
 				setIsLoading(false);
 			}
-		};
-
-		fetchWeather();
+		}) ();
 	}, [city]);
 
 	return (

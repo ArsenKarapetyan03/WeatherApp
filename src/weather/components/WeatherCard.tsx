@@ -1,12 +1,11 @@
 import { useContext, useState } from "react";
 import { Star } from "lucide-react";
-import { cn } from "custom-ui-components/src/lib/utils.ts";
-import { ICON_URL } from "../model/weather.config.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { windConverter } from "../helpers/windConverter.ts";
+import { CustomNotification, cn } from "custom-ui-components";
+import { ICON_URL } from "../model/weather.config.ts";
 import type { WeatherData } from "../model/weather.types.ts";
-import { CustomNotification } from "custom-ui-components/src/components/CustomNotification.tsx";
 
 interface NotificationState {
 	type: "success" | "info" | undefined;
@@ -21,22 +20,21 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 	const {cities, setCities, tempUnit} = useContext(WeatherContext);
 	const convert = useUnitConverter();
 	const [openNotification, setOpenNotification] = useState<boolean>(false);
-
 	const [notification, setNotification] = useState<NotificationState>({
 		type: undefined,
 		message: { title: "", content: "" },
 	});
 
 	const name = weatherData.name;
-	const isFavorite = cities.includes(name);
 	const {weather, main, wind} = weatherData.list[0];
+	const isFavorite = cities.includes(name);
 
-	const triggerToast = (purpose: "add" | "removed") => {
-		const isAdd = purpose === "add";
+	const triggerToast = (action: "add" | "remove") => {
+		const isAdded = action === "add";
 
 		setNotification({
-			type: isAdd ? "success" : "info",
-			message: isAdd
+			type: isAdded ? "success" : "info",
+			message: isAdded
 				? { title: "Added successfully", content: "Now you can see your favorite city weather in Favorites" }
 				: { title: "Removed", content: "Removed from list Favorites" }
 		});
@@ -47,11 +45,10 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 		}, 100);
 	};
 
-
 	const handleToggleFavorite = () => {
 		if (isFavorite) {
 			setCities((prevState) => prevState.filter((city) => city !== name));
-			triggerToast("removed");
+			triggerToast("remove");
 		} else {
 			setCities((prevState) => [...prevState, name]);
 			triggerToast("add");
@@ -59,7 +56,7 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 	};
 
 	return (
-		<div className="flex flex-col gap-2 py-3 text-2xl bg-black/5 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
+		<div className="flex flex-col gap-2 text-2xl bg-black/5 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
 			{/* Heading */}
 			<div className="flex justify-center">
 				<div className="flex-1 text-5xl text-blue-50 font-bold">{name}</div>

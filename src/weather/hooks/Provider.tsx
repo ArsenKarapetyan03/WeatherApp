@@ -1,12 +1,13 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
+import type { TempUnit } from "../model/weather.types.ts";
 
 interface WeatherContextType {
 	cities: string[];
 	setCities: Dispatch<SetStateAction<string[]>>;
 	search: string | null;
 	setSearch: Dispatch<SetStateAction<string | null>>;
-	tempUnit: string;
-	setTempUnit: Dispatch<SetStateAction<string>>;
+	tempUnit: TempUnit;
+	setTempUnit: Dispatch<SetStateAction<TempUnit>>;
 }
 
 export const WeatherContext = createContext<WeatherContextType>({
@@ -15,5 +16,5 @@ export const WeatherContext = createContext<WeatherContextType>({
 	search: null,
 	setSearch: (() => {}) as Dispatch<SetStateAction<string | null>>,
 	tempUnit: "C",
-	setTempUnit: (() => {}) as Dispatch<SetStateAction<string>>,
+	setTempUnit: (() => {}) as Dispatch<SetStateAction<TempUnit>>,
 });

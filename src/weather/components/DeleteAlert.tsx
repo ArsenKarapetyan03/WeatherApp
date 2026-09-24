@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { Trash2Icon } from "lucide-react";
-import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
+import { CustomButton } from "custom-ui-components";
 
 export const DeleteAlert = (
 	{

@@ -2,7 +2,7 @@ import { useContext, useMemo } from "react";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { CalendarDays } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { CollapsiblePanel } from "custom-ui-components/src/components/CollapsiblePanel.tsx";
+import { CollapsiblePanel } from "custom-ui-components";
 import type { Weather, WeatherData } from "../model/weather.types.ts";
 import { DayWeatherRow } from "./DayWeatherRow.tsx";
 import { DayWithHourlyWeather } from "./DayWithHourlyWeather.tsx";
@@ -27,7 +27,7 @@ export const DailyWeather = ({weatherData}: {weatherData: WeatherData}) => {
 	}, [weatherData, convert, tempUnit]);
 
 	return (
-		<div className="mb-4 flex flex-col gap-2 p-3 text-2xl bg-black/10 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
+		<div className="flex flex-col gap-2 p-3 text-2xl bg-black/10 shadow-[5px_5px_20px_rgba(0,0,0,0.25)] rounded-lg">
 			<div className="font-bold text-3xl text-blue-200">
 				<CalendarDays className="inline"/>
 				<span> 5-day forecast</span>

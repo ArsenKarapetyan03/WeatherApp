@@ -24,11 +24,13 @@ const getCurrentCoords = (): Promise<{ lat: number, lon: number } | null> => {
 const getCityCoords = async (city: string): Promise<{ name: string, lat: number, lon: number }> => {
 	try {
 		const response = await fetch(CITY_COORDS_URL + city + "&appid=" + API_KEY);
+
 		if (!response.ok) {
 			throw new Error(`Network error: ${response.status}`);
 		}
 
 		const data = await response.json();
+
 		if (!data.length) {
 			throw new Error("City not found");
 		}

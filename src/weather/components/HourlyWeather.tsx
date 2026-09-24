@@ -17,36 +17,33 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 
 	return (
 		<div className="flex gap-2 text-xl overflow-x-auto">
-			{dayWeather.map((item: any, index: number) => {
-
-				return (
-					<div
-						key={index}
-						className="flex-1 flex flex-col gap-2 p-2 max-w-1/4 font-semibold text-blue-50 bg-black/5 rounded-lg"
-					>
-						<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
-						<div className="flex justify-between gap-2">
-							<div className="flex text-5xl">
-								<span>{convert(item.main.temp)}</span>
-								<span className="text-3xl text-yellow-300">°{tempUnit}</span>
+			{dayWeather.map((item: any, index: number) => (
+				<div
+					key={index}
+					className="flex-1 flex flex-col gap-2 p-2 max-w-1/4 font-semibold text-blue-50 bg-black/5 rounded-lg"
+				>
+					<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
+					<div className="flex justify-between gap-2">
+						<div className="flex text-5xl">
+							<span>{convert(item.main.temp)}</span>
+							<span className="text-3xl text-yellow-300">°{tempUnit}</span>
+						</div>
+						<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
+							<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"} alt="" />
+							<div>
+								<Droplets size={18} className="inline"/>
+								<span> {item.main.humidity}</span>
+								<span className="text-sm">%</span>
 							</div>
-							<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
-								<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"} alt="" />
-								<div>
-									<Droplets size={18} className="inline"/>
-									<span> {item.main.humidity}</span>
-									<span className="text-sm">%</span>
-								</div>
-								<div>
-									<Wind size={20} className="inline"/>
-									<span> {windConverter(item.wind.speed)}</span>
-									<span className="text-sm">km/h</span>
-								</div>
+							<div className="flex gap-1 align-middle">
+								<Wind size={20} className="inline"/>
+								<span>{windConverter(item.wind.speed)}</span>
+								<span className="text-sm">km/h</span>
 							</div>
 						</div>
 					</div>
-				);
-			})}
+				</div>
+			))}
 		</div>
 	);
 }

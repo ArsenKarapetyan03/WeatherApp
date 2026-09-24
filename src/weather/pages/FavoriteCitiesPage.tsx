@@ -2,11 +2,10 @@ import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { CustomNotification } from "custom-ui-components/src/components/CustomNotification.tsx";
-import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
-import { EmptyState } from "custom-ui-components/src/components/EmptyState.tsx";
+import { CustomButton, CustomNotification, EmptyState } from "custom-ui-components";
 import { PageHeader } from "../components/PageHeader.tsx";
 import { WeatherRow } from "../components/WeatherRow.tsx";
+import { WeatherSearch } from "../components/WeatherSearch.tsx";
 
 export const FavoriteCitiesPage = () => {
 	const {cities} = useContext(WeatherContext);
@@ -21,15 +20,16 @@ export const FavoriteCitiesPage = () => {
 			<PageHeader />
 
 			<main className="max-w-2/3 w-full mx-auto mt-20">
-				<div className="relative">
+				<div className="flex justify-between items-center">
 					<CustomButton
 						disabled={!hasPreviousPage}
 						onClick={()=>navigate(-1)}
-						className="absolute left-0 disabled:bg-black/5 disabled:text-blue-100"
+						className="disabled:bg-black/5 disabled:text-blue-100"
 					>
 						<ArrowLeft/>
 					</CustomButton>
 					<h1 className="m-10 flex-1 font-semibold text-white">Favorite cities</h1>
+					<WeatherSearch />
 				</div>
 				<div>
 					{cities && cities.length > 0 && (

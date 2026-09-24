@@ -23,3 +23,5 @@ export interface WeatherData {
 	name: string;
 	list: Weather[];
 }
+
+export type TempUnit = "C" | "F";

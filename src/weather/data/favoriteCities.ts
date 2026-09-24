@@ -1,1 +1,1 @@
-export const FAVORITE_CITIES = ["Yerevan", "Aparan", "Old Toronto",];
+export const FAVORITE_CITIES = ["Yerevan", "Aparan", "Old Toronto"];

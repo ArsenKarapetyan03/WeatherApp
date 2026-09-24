@@ -1,46 +1,43 @@
 import { type ChangeEvent, type SubmitEvent, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { CustomButton } from "custom-ui-components/src/components/CustomButton.tsx";
-import { cn } from "custom-ui-components/src/lib/utils.ts";
 import { WeatherContext } from "../hooks/Provider.tsx";
+import { X } from "lucide-react";
 
 export const WeatherSearch = () => {
 	const {setSearch} = useContext(WeatherContext);
-	const navigate = useNavigate();
-	const [input, setInput] = useState("");
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (input.trim()) {
-			setSearch(input.trim());
-			setInput("");
-			navigate('/')
+		const trimmedQuery = searchQuery.trim();
+
+		if (trimmedQuery) {
+			setSearch(searchQuery);
+			setSearchQuery("");
 		}
 	}
 
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className={cn(
-				"flex bg-blue-500 border border-blue-400 rounded-lg",
-				"hover:border-blue-400 focus-within:border-blue-400 transition"
-			)}
+			className={"p-2 flex bg-white border border-blue-400 rounded-lg"}
 		>
 			<input
-				id="search"
+				name="search"
 				type="text"
 				placeholder="Enter your city"
-				value={input}
-				onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-				className="flex-1 p-1 text-white rounded-lg placeholder-blue-300 focus:outline-none"
+				value={searchQuery}
+				onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+				className="flex-1 p-1 rounded-lg placeholder-zinc-600 focus:outline-none"
 			/>
-			<CustomButton
-				type="submit"
-				className="text-white bg-transparent border-none shadow-none hover:text-blue-800"
+
+			<button
+				type="reset"
+				onClick={() => setSearchQuery("")}
+				className="text-blue-500 cursor-pointer hover:text-black"
 			>
-				Search
-			</CustomButton>
+				<X />
+			</button>
 		</form>
 	)
 }

@@ -1,14 +1,13 @@
 import { useContext } from "react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { cn } from "custom-ui-components/src/lib/utils.ts";
+import { cn } from "custom-ui-components";
 
 export const ToggleTempUnit = () => {
-
 	const {tempUnit, setTempUnit} = useContext(WeatherContext);
 
 	const handleClick = () => {
 		setTempUnit(prevState => prevState === "C" ? "F" : "C")
-	}
+	};
 
 	return (
 		<div>
