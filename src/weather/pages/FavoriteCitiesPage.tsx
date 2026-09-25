@@ -5,7 +5,6 @@ import { WeatherContext } from "../hooks/Provider.tsx";
 import { CustomButton, CustomNotification, EmptyState } from "custom-ui-components";
 import { PageHeader } from "../components/PageHeader.tsx";
 import { WeatherRow } from "../components/WeatherRow.tsx";
-import { WeatherSearch } from "../components/WeatherSearch.tsx";
 
 export const FavoriteCitiesPage = () => {
 	const {cities} = useContext(WeatherContext);
@@ -29,7 +28,6 @@ export const FavoriteCitiesPage = () => {
 						<ArrowLeft/>
 					</CustomButton>
 					<h1 className="m-10 flex-1 font-semibold text-white">Favorite cities</h1>
-					<WeatherSearch />
 				</div>
 				<div>
 					{cities && cities.length > 0 && (

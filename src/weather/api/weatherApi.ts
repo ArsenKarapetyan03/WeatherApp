@@ -1,4 +1,5 @@
-import { DEFAULT_CITY, CITY_COORDS_URL, API_KEY, CITY_NAME_URL, DAILY_URL } from "../model/weather.config.ts";
+import { DEFAULT_CITY, WEATHER_API } from "../model/weather.config.ts";
+import { createApiUrl } from "../helpers/createApiUrl.ts";
 import type { WeatherData } from "../model/weather.types.ts";
 
 const getCurrentCoords = (): Promise<{ lat: number, lon: number } | null> => {
@@ -23,7 +24,8 @@ const getCurrentCoords = (): Promise<{ lat: number, lon: number } | null> => {
 
 const getCityCoords = async (city: string): Promise<{ name: string, lat: number, lon: number }> => {
 	try {
-		const response = await fetch(CITY_COORDS_URL + city + "&appid=" + API_KEY);
+		const url = createApiUrl(WEATHER_API.GEO_DIRECT, {q: city});
+		const response = await fetch(url);
 
 		if (!response.ok) {
 			throw new Error(`Network error: ${response.status}`);
@@ -46,7 +48,9 @@ const getCityCoords = async (city: string): Promise<{ name: string, lat: number,
 
 const getCityName = async (lat: number, lon: number) => {
 	try {
-		const response = await fetch(CITY_NAME_URL + "?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY);
+		const url = createApiUrl(WEATHER_API.GEO_REVERSE, {lat, lon});
+		const response = await fetch(url);
+
 		if (!response.ok) {
 			throw new Error(`Network error: ${response.status}`);
 		}
@@ -64,34 +68,45 @@ const getCityName = async (lat: number, lon: number) => {
 
 export const getWeather = async (city: string | null): Promise<WeatherData> => {
 	try {
-		let location
+		let location: {
+			name: string,
+			lat: number,
+			lon: number
+		} | undefined;
 
-		if (city) {
-			location = await getCityCoords(city);
-		} else {
+		let targetCity = city || DEFAULT_CITY;
+
+		if (!city) {
 			const coords = await getCurrentCoords();
 
 			if (coords) {
+				let name = "Your location";
+
 				try {
-					location = {
-						name: await getCityName(coords.lat, coords.lon),
-						lat: coords.lat,
-						lon: coords.lon,
-					};
+					name = await getCityName(coords.lat, coords.lon);
 				} catch {
-					location = {
-						name: "Your location",
-						lat: coords.lat,
-						lon: coords.lon,
-					};
+					console.warn("Failed to get City");
 				}
-			}
-			else {
-				location = await getCityCoords(DEFAULT_CITY);
+
+				location = {
+					name,
+					lat: coords.lat,
+					lon: coords.lon,
+				};
 			}
 		}
 
-		const response = await fetch(DAILY_URL + "?lat=" + location.lat + "&lon=" + location.lon + "&units=metric&appid=" + API_KEY);
+		if (!location) {
+			location = await getCityCoords(targetCity);
+		}
+
+		const url = createApiUrl(WEATHER_API.FORECAST, {
+			lat: location.lat,
+			lon: location.lon,
+			units: "metric"
+		});
+
+		const response = await fetch(url);
 
 		if (!response.ok) {
 			throw new Error(`Network error: ${response.status}`);
