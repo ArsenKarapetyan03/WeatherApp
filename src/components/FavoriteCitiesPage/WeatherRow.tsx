@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useContext, useEffect, useState, type Dispatch, type SetStateAction, useTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { Droplets, Wind } from "lucide-react";
 import { WeatherContext } from "@/hooks/WeatherContext.ts";
@@ -7,7 +7,7 @@ import { useWeatherActions } from "@/hooks/useWeatherActions.ts";
 import { CustomButton, CustomModal, CustomLoadingSpinner } from "custom-ui-components";
 import { windConverter } from "@/helpers/windConverter.ts";
 import { getWeather } from "@/api/weatherApi.ts";
-import { DeleteAlert } from "./general/DeleteAlert.tsx";
+import { DeleteAlert } from "../general/DeleteAlert.tsx";
 import type { WeatherData } from "@/model/weather.types.ts";
 import { createIconUrl } from "@/helpers/createIconUrl.ts";
 
@@ -29,7 +29,7 @@ export const WeatherRow = (
 	const {addCity} = useWeatherActions();
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, startTransition] = useTransition();
 	const [error, setError] = useState<string | null>(null);
 
 	const finalWeatherData = weatherData?.list[0];
@@ -45,8 +45,7 @@ export const WeatherRow = (
 	}
 
 	useEffect(() => {
-		(async () => {
-			setIsLoading(true);
+		startTransition(async () => {
 			setError(null);
 
 			try {
@@ -55,10 +54,8 @@ export const WeatherRow = (
 			} catch (err) {
 				console.error(err);
 				setError("Can't get weather data");
-			} finally {
-				setIsLoading(false);
 			}
-		}) ();
+		});
 	}, [city]);
 
 	return (

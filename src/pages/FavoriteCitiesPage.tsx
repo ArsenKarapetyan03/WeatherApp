@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { WeatherContext } from "@/hooks/WeatherContext.ts";
 import { CustomButton, CustomNotification, EmptyState } from "custom-ui-components";
-import { WeatherRow } from "@/components/WeatherRow.tsx";
+import { WeatherRow } from "@/components/FavoriteCitiesPage/WeatherRow.tsx";
 
 export const FavoriteCitiesPage = () => {
 	const {cities} = useContext(WeatherContext);
