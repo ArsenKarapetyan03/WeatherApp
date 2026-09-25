@@ -20,7 +20,7 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 			{dayWeather.map((item: any, index: number) => (
 				<div
 					key={index}
-					className="flex-1 flex flex-col gap-2 p-2 max-w-1/4 font-semibold text-blue-50 bg-black/5 rounded-lg"
+					className="flex-1 flex flex-col gap-2 p-2 max-w-1/3 font-semibold text-blue-50 bg-black/5 rounded-lg"
 				>
 					<div>{new Date(Number(item.dt) * 1000).getHours()}:00</div>
 					<div className="flex justify-between gap-2">
@@ -35,7 +35,7 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 								<span> {item.main.humidity}</span>
 								<span className="text-sm">%</span>
 							</div>
-							<div className="flex gap-1 align-middle">
+							<div className="flex gap-1 items-center">
 								<Wind size={20} className="inline"/>
 								<span>{windConverter(item.wind.speed)}</span>
 								<span className="text-sm">km/h</span>
