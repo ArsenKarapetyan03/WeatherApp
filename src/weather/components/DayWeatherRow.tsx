@@ -1,7 +1,7 @@
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import type { Weather } from "../model/weather.types.ts";
 import { MoveDown, MoveUp } from "lucide-react";
-import { ICON_URL } from "../model/weather.config.ts";
+import { createIconUrl } from "../helpers/createIconUrl.ts";
 
 export const DayWeatherRow = ({dayWeather}: {dayWeather: Weather }) => {
 	const convert = useUnitConverter();
@@ -22,7 +22,7 @@ export const DayWeatherRow = ({dayWeather}: {dayWeather: Weather }) => {
 					{convert(dayWeather.main.temp_max)}°
 				</div>
 			</div>
-			<img src={ICON_URL + dayWeather.weather[0].icon.replace('n', 'd') + ".png"} alt=""/>
+			<img src={createIconUrl(dayWeather.weather[0].icon.replace("n","d"))} alt=""/>
 		</div>
 	</div>)
 }

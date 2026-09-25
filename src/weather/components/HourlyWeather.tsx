@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { Droplets, Wind } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { ICON_URL } from "../model/weather.config.ts";
 import { windConverter } from "../helpers/windConverter.ts";
 import type { Weather } from "../model/weather.types.ts";
+import { createIconUrl } from "../helpers/createIconUrl.ts";
 
 export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined }) => {
 
@@ -29,7 +29,7 @@ export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined 
 							<span className="text-3xl text-yellow-300">°{tempUnit}</span>
 						</div>
 						<div className="flex flex-col items-end text-nowrap text-blue-300 font-bold">
-							<img className="size-10" src={ICON_URL + item.weather[0].icon + ".png"} alt="" />
+							<img className="size-10" src={createIconUrl(item.weather[0].icon)} alt="" />
 							<div>
 								<Droplets size={18} className="inline"/>
 								<span> {item.main.humidity}</span>

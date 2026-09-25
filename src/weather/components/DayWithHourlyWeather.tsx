@@ -18,7 +18,7 @@ export const DayWithHourlyWeather = ({dayWeather}: {dayWeather: DailyWeatherItem
 		<div className="flex flex-col gap-5 py-2">
 			<div className="flex justify-evenly items-center">
 				<div className="flex justify-center">
-					<span className="text-7xl text-white font-bold">{convert(main.temp)}</span>
+					<span className="text-7xl text-white font-bold">{convert(main.temp_max)}</span>
 					<span className="text-xl text-blue-100 font-bold">o</span>
 					<span className="text-4xl text-blue-100 font-bold pt-4">{tempUnit}</span>
 				</div>

@@ -4,7 +4,7 @@ import { WeatherContext } from "../hooks/Provider.tsx";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { windConverter } from "../helpers/windConverter.ts";
 import { CustomNotification, cn } from "custom-ui-components";
-import { ICON_URL } from "../model/weather.config.ts";
+import { createIconUrl } from "../helpers/createIconUrl.ts";
 import type { WeatherData } from "../model/weather.types.ts";
 
 interface NotificationState {
@@ -83,7 +83,7 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 					<div>Humidity {main.humidity}%</div>
 					<div>Wind speed {windConverter(wind.speed)} km/h</div>
 					<div className="flex">{weather[0].description}
-						<img src={ICON_URL + weather[0].icon + ".png"} alt=""/>
+						<img src={createIconUrl(weather[0].icon)} alt=""/>
 					</div>
 				</div>
 			</div>

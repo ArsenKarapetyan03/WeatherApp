@@ -2,13 +2,13 @@ import { useContext, useEffect, useState, type Dispatch, type SetStateAction } f
 import { useNavigate } from "react-router-dom";
 import { Droplets, Wind } from "lucide-react";
 import { WeatherContext } from "../hooks/Provider.tsx";
-import { ICON_URL } from "../model/weather.config.ts";
 import { getWeather } from "../api/weatherApi.ts";
 import { useUnitConverter } from "../hooks/useUnitConverter.ts";
 import { windConverter } from "../helpers/windConverter.ts";
 import { CustomButton, CustomModal, CustomLoadingSpinner } from "custom-ui-components";
 import { DeleteAlert } from "./DeleteAlert.tsx";
 import type { WeatherData } from "../model/weather.types.ts";
+import { createIconUrl } from "../helpers/createIconUrl.ts";
 
 interface WeatherRowProps {
 	city: string;
@@ -83,7 +83,7 @@ export const WeatherRow = (
 							<span>{convert(finalWeatherData.main.temp)}</span>
 							<span className="text-2xl text-yellow-300 align-text-top">°{tempUnit}</span>
 						</div>
-						<img src={`${ICON_URL}${finalWeatherData.weather[0].icon.replace("n", "d")}.png`} alt=""/>
+						<img src={createIconUrl(finalWeatherData.weather[0].icon.replace("n", "d"))} alt=""/>
 						<div>
 							<Droplets size={20} className="inline"/>
 							<span> {finalWeatherData.main.humidity}</span>

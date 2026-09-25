@@ -1,43 +1,60 @@
-import { type ChangeEvent, type SubmitEvent, useContext, useState } from "react";
+import { type ChangeEvent, useContext, useRef, useState } from "react";
 import { WeatherContext } from "../hooks/Provider.tsx";
 import { X } from "lucide-react";
 
 export const WeatherSearch = () => {
 	const {setSearch} = useContext(WeatherContext);
 	const [searchQuery, setSearchQuery] = useState("");
+	const timeOutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSearch = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
 
-		const trimmedQuery = searchQuery.trim();
+		const value = e.target.value;
+		setSearchQuery(value);
+		const trimmedQuery = value.trim();
+
+		if (timeOutRef.current) {
+			clearTimeout(timeOutRef.current);
+		}
 
 		if (trimmedQuery) {
-			setSearch(searchQuery);
-			setSearchQuery("");
+			timeOutRef.current = setTimeout(()=>{
+				setSearch(trimmedQuery);
+			},500);
 		}
 	}
 
+	const handleReset = () => {
+		setSearchQuery("");
+
+		if (timeOutRef.current) {
+			clearTimeout(timeOutRef.current);
+		}
+	};
+
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className={"p-2 flex bg-white border border-blue-400 rounded-lg"}
+		<div
+			className={
+				"flex items-center gap-2 w-full max-w-md bg-white/90 border border-slate-200 p-2 rounded-2xl shadow-xl transition-all duration-300" +
+				" focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-white/20 focus-within:bg-white"
+			}
 		>
 			<input
 				name="search"
 				type="text"
-				placeholder="Enter your city"
+				placeholder="Enter city"
 				value={searchQuery}
-				onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-				className="flex-1 p-1 rounded-lg placeholder-zinc-600 focus:outline-none"
+				onChange={handleSearch}
+				className="flex-1 bg-transparent text-slate-800 placeholder-slate-400 font-medium focus:outline-none"
 			/>
 
 			<button
-				type="reset"
-				onClick={() => setSearchQuery("")}
+				type="button"
+				onClick={handleReset}
 				className="text-blue-500 cursor-pointer hover:text-black"
 			>
 				<X />
 			</button>
-		</form>
+		</div>
 	)
 }
