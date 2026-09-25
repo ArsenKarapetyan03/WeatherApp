@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { WeatherContext } from "../hooks/Provider.tsx";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
 import { cn } from "custom-ui-components";
 
 export const ToggleTempUnit = () => {

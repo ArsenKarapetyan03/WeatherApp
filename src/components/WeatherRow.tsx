@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { Droplets, Wind } from "lucide-react";
-import { WeatherContext } from "../hooks/Provider.tsx";
-import { getWeather } from "../api/weatherApi.ts";
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import { windConverter } from "../helpers/windConverter.ts";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
+import { useUnitConverter } from "@/hooks/useUnitConverter.ts";
+import { useWeatherActions } from "@/hooks/useWeatherActions.ts";
 import { CustomButton, CustomModal, CustomLoadingSpinner } from "custom-ui-components";
-import { DeleteAlert } from "./DeleteAlert.tsx";
-import type { WeatherData } from "../model/weather.types.ts";
-import { createIconUrl } from "../helpers/createIconUrl.ts";
+import { windConverter } from "@/helpers/windConverter.ts";
+import { getWeather } from "@/api/weatherApi.ts";
+import { DeleteAlert } from "./general/DeleteAlert.tsx";
+import type { WeatherData } from "@/model/weather.types.ts";
+import { createIconUrl } from "@/helpers/createIconUrl.ts";
 
 interface WeatherRowProps {
 	city: string;
@@ -24,7 +25,8 @@ export const WeatherRow = (
 
 	const navigate = useNavigate();
 	const convert = useUnitConverter();
-	const {setSearch, setCities, tempUnit} = useContext(WeatherContext);
+	const {setSearch, tempUnit} = useContext(WeatherContext);
+	const {addCity} = useWeatherActions();
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -38,7 +40,7 @@ export const WeatherRow = (
 	};
 
 	const handleDeleteFavorite = () => {
-		setCities(prevState => prevState.filter((name) => city !== name));
+		addCity(city);
 		setIsNotificationOpen(true);
 	}
 

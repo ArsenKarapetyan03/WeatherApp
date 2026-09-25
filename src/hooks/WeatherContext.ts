@@ -1,5 +1,5 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
-import type { TempUnit } from "../model/weather.types.ts";
+import type { TempUnit } from "@/model/weather.types.ts";
 
 interface WeatherContextType {
 	cities: string[];

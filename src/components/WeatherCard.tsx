@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import { Star } from "lucide-react";
-import { WeatherContext } from "../hooks/Provider.tsx";
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import { windConverter } from "../helpers/windConverter.ts";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
+import { useUnitConverter } from "@/hooks/useUnitConverter.ts";
+import { useWeatherActions } from "@/hooks/useWeatherActions.ts";
+import { windConverter } from "@/helpers/windConverter.ts";
 import { CustomNotification, cn } from "custom-ui-components";
-import { createIconUrl } from "../helpers/createIconUrl.ts";
-import type { WeatherData } from "../model/weather.types.ts";
+import { createIconUrl } from "@/helpers/createIconUrl.ts";
+import type { WeatherData } from "@/model/weather.types.ts";
 
 interface NotificationState {
 	type: "success" | "info" | undefined;
@@ -17,8 +18,9 @@ interface NotificationState {
 
 export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
-	const {cities, setCities, tempUnit} = useContext(WeatherContext);
+	const {cities, tempUnit} = useContext(WeatherContext);
 	const convert = useUnitConverter();
+	const weatherActions = useWeatherActions();
 	const [openNotification, setOpenNotification] = useState<boolean>(false);
 	const [notification, setNotification] = useState<NotificationState>({
 		type: undefined,
@@ -47,10 +49,10 @@ export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
 
 	const handleToggleFavorite = () => {
 		if (isFavorite) {
-			setCities((prevState) => prevState.filter((city) => city !== name));
+			weatherActions.removeCity(name);
 			triggerToast("remove");
 		} else {
-			setCities((prevState) => [...prevState, name]);
+			weatherActions.addCity(name);
 			triggerToast("add");
 		}
 	};

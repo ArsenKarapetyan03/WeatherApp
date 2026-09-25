@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { List } from "lucide-react";
 import { CustomButton } from "custom-ui-components";
-import { ToggleTempUnit } from "./ToggleTempUnit.tsx";
+import { ToggleTempUnit } from "../ToggleTempUnit.tsx";
 
 export const PageHeader = () => {
 	const location = useLocation();

@@ -1,9 +1,9 @@
 import { useContext, useMemo } from "react";
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
+import { useUnitConverter } from "@/hooks/useUnitConverter.ts";
 import { CalendarDays } from "lucide-react";
-import { WeatherContext } from "../hooks/Provider.tsx";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
 import { CollapsiblePanel } from "custom-ui-components";
-import type { Weather, WeatherData } from "../model/weather.types.ts";
+import type { Weather, WeatherData } from "@/model/weather.types.ts";
 import { DayWeatherRow } from "./DayWeatherRow.tsx";
 import { DayWithHourlyWeather } from "./DayWithHourlyWeather.tsx";
 

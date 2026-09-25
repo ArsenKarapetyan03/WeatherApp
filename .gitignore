@@ -3,4 +3,5 @@ dist/
 .vite/
 
 .idea/
+.env/
 .DS_Store

@@ -1,9 +1,9 @@
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import { HourlyWeather } from "./HourlyWeather.tsx";
-import { windConverter } from "../helpers/windConverter.ts";
-import type { Weather } from "../model/weather.types.ts";
+import { useUnitConverter } from "@/hooks/useUnitConverter.ts";
+import { HourlyWeather } from "../general/HourlyWeather.tsx";
+import { windConverter } from "@/helpers/windConverter.ts";
+import type { Weather } from "@/model/weather.types.ts";
 import { useContext } from "react";
-import { WeatherContext } from "../hooks/Provider.tsx";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
 
 interface DailyWeatherItem extends Weather {
 	hourlyList: Weather[];

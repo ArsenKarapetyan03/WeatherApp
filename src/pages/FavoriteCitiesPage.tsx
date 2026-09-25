@@ -1,10 +1,9 @@
 import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { WeatherContext } from "../hooks/Provider.tsx";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
 import { CustomButton, CustomNotification, EmptyState } from "custom-ui-components";
-import { PageHeader } from "../components/PageHeader.tsx";
-import { WeatherRow } from "../components/WeatherRow.tsx";
+import { WeatherRow } from "@/components/WeatherRow.tsx";
 
 export const FavoriteCitiesPage = () => {
 	const {cities} = useContext(WeatherContext);
@@ -15,10 +14,9 @@ export const FavoriteCitiesPage = () => {
 	const hasPreviousPage = location.key !== "default";
 
 	return (
-		<div>
-			<PageHeader />
+		<>
 
-			<main className="max-w-2/3 w-full mx-auto mt-20">
+			<>
 				<div className="flex justify-between items-center">
 					<CustomButton
 						disabled={!hasPreviousPage}
@@ -44,7 +42,7 @@ export const FavoriteCitiesPage = () => {
 						className="text-white"
 					/>
 				)}
-			</main>
+			</>
 
 			<CustomNotification
 				message={
@@ -56,6 +54,6 @@ export const FavoriteCitiesPage = () => {
 				open={isNotificationOpen}
 				setOpen={setIsNotificationOpen}
 			/>
-		</div>
+		</>
 	);
 };

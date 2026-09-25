@@ -1,7 +1,7 @@
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
-import type { Weather } from "../model/weather.types.ts";
+import { useUnitConverter } from "@/hooks/useUnitConverter.ts";
+import type { Weather } from "@/model/weather.types.ts";
 import { MoveDown, MoveUp } from "lucide-react";
-import { createIconUrl } from "../helpers/createIconUrl.ts";
+import { createIconUrl } from "@/helpers/createIconUrl.ts";
 
 export const DayWeatherRow = ({dayWeather}: {dayWeather: Weather }) => {
 	const convert = useUnitConverter();

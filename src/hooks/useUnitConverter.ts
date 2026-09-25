@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { WeatherContext } from "./Provider.tsx";
+import { WeatherContext } from "./WeatherContext.ts";
 
 export const useUnitConverter = () => {
 	const {tempUnit} = useContext(WeatherContext);

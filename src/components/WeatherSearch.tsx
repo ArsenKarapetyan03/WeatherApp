@@ -1,5 +1,5 @@
 import { type ChangeEvent, useContext, useRef, useState } from "react";
-import { WeatherContext } from "../hooks/Provider.tsx";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
 import { X } from "lucide-react";
 
 export const WeatherSearch = () => {

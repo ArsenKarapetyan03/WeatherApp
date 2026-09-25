@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { useUnitConverter } from "../hooks/useUnitConverter.ts";
+import { useUnitConverter } from "@/hooks/useUnitConverter.ts";
 import { Droplets, Wind } from "lucide-react";
-import { WeatherContext } from "../hooks/Provider.tsx";
-import { windConverter } from "../helpers/windConverter.ts";
-import type { Weather } from "../model/weather.types.ts";
-import { createIconUrl } from "../helpers/createIconUrl.ts";
+import { WeatherContext } from "@/hooks/WeatherContext.ts";
+import { windConverter } from "@/helpers/windConverter.ts";
+import type { Weather } from "@/model/weather.types.ts";
+import { createIconUrl } from "@/helpers/createIconUrl.ts";
 
 export const HourlyWeather = ({dayWeather}: {dayWeather : Weather[] | undefined }) => {
 
