@@ -17,7 +17,6 @@ interface NotificationState {
 }
 
 export const WeatherCard = ({weatherData}: {weatherData: WeatherData}) => {
-
 	const {cities, tempUnit} = useContext(WeatherContext);
 	const convert = useUnitConverter();
 	const weatherActions = useWeatherActions();

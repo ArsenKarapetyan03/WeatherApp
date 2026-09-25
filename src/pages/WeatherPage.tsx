@@ -1,22 +1,21 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useTransition } from "react";
 import { CustomLoadingSpinner } from "custom-ui-components";
 import { WeatherCard } from "@/components/WeatherCard.tsx";
 import { HourlyWeather } from "@/components/general/HourlyWeather.tsx";
 import { DailyWeather } from "@/components/DailyWeather/DailyWeather.tsx";
+import { WeatherSearch } from "@/components/WeatherSearch.tsx";
 import { getWeather } from "@/api/weatherApi.ts";
 import { WeatherContext } from "@/hooks/WeatherContext.ts";
 import type { WeatherData } from "@/model/weather.types.ts";
-import { WeatherSearch } from "@/components/WeatherSearch.tsx";
 
 export const WeatherPage = () => {
 	const {search} = useContext(WeatherContext);
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, startTransition] = useTransition();
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		(async () => {
-			setIsLoading(true);
+		startTransition(async () => {
 			setError(null);
 
 			try {
@@ -25,10 +24,8 @@ export const WeatherPage = () => {
 			} catch (err) {
 				console.log(err);
 				setError("Can't get weather data");
-			} finally {
-				setIsLoading(false);
 			}
-		})();
+		});
 	}, [search]);
 
 	const todayWeather = weatherData?.list.filter(item => new Date(Number(item.dt) * 1000).getDate() === new Date().getDate());
