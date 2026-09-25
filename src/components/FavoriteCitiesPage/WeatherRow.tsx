@@ -26,7 +26,7 @@ export const WeatherRow = (
 	const navigate = useNavigate();
 	const convert = useUnitConverter();
 	const {setSearch, tempUnit} = useContext(WeatherContext);
-	const {addCity} = useWeatherActions();
+	const {removeCity} = useWeatherActions();
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isLoading, startTransition] = useTransition();
@@ -40,7 +40,7 @@ export const WeatherRow = (
 	};
 
 	const handleDeleteFavorite = () => {
-		addCity(city);
+		removeCity(city);
 		setIsNotificationOpen(true);
 	}
 
